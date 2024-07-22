@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MenuMain : MonoBehaviour 
 {
  
+
     public void LeaderboardPressed(){
       Debug.Log("LeaderboardPressed");
       SceneManager.LoadScene("LeaderboardScene");
