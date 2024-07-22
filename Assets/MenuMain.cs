@@ -24,4 +24,10 @@ public class MenuMain : MonoBehaviour
       SceneManager.LoadScene("PreGameScene");
       Debug.Log("PreGameScene loaded");
    }   
+
+   public void QuitPressed(){
+      Debug.Log("QuitPressed");
+      Application.Quit();
+      Debug.Log("Game exited");
+   }
 }
