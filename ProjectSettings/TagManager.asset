@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Logic
   - EventsManager
+  - PipeSpawnLogic
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PlayerSprite
   - Water
   - UI
   - 

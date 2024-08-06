@@ -10,13 +10,11 @@ public class PipeMovement : MonoBehaviour
         float deadZone = -12;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
-
-    // Update is called once per frame
+    //moves and destroys pipes
     void Update()
     {
         transform.position  = transform.position + (Vector3.left * moveSpeed) * Time.deltaTime;
