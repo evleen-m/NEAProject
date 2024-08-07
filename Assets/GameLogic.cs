@@ -10,10 +10,30 @@ public class GameLogic : MonoBehaviour
     public Text scoreText;
     public GameObject gameOverDisplay;
     PipeSpawn timerPausedLogic;
+    
+    public int timeCounter;
+    public Text timeText;
+
+
+
+    // Game Constants
+    public float DeadZoneY = 5.1f;
+    public float Ceiling = 15.3f;
+    public float JumpHeight = 20f;
+
+    public float SpawnRate;
+    public float HeightOffset = 4.5f;
+    
 
     void Start()
     {
         timerPausedLogic = GameObject.FindGameObjectWithTag("PipeSpawnLogic").GetComponent<PipeSpawn>();
+    }
+
+    public float RandomSpawn()
+    {
+        SpawnRate = Random.Range(2,6);
+        return SpawnRate;
     }
 
     [ContextMenu("Increase Score")]
@@ -33,8 +53,14 @@ public class GameLogic : MonoBehaviour
 
     public void gameOver()
     {
-        gameOverDisplay.SetActive(true);
+        gameOverDisplay.SetActive(true);        
         timerPausedLogic.timerPaused = true;
+    }
 
+    public void LeaderboardPressed()
+    {
+        Debug.Log("LeaderboardPressed");
+        SceneManager.LoadScene("LeaderboardScene");
+        Debug.Log("LeaderBoard scene loaded");
     }
 }

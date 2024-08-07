@@ -6,8 +6,8 @@ using UnityEngine.UIElements;
 public class PipeMovement : MonoBehaviour
 {
 
-    public float moveSpeed = 2;
-        float deadZone = -12;
+    float moveSpeed = 2.5f;
+    float deadZone = -12f;
 
 
     void Start()
