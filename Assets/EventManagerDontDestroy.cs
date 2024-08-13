@@ -11,10 +11,10 @@ public class DontDestroy : MonoBehaviour
     void Awake()
     {
 
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("EventsManager");
-         if (objs.Length > 1)
+        GameObject[] eventSystem = GameObject.FindGameObjectsWithTag("EventsManager");
+         if (eventSystem.Length > 1) //check how many event systems are present - max is 1 in a single scene
         {
-            Destroy(this.gameObject);
+            Destroy(this.gameObject); //destroy duplicate event systems
         }
         DontDestroyOnLoad(this.gameObject);
     }

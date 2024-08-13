@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D playerRigidbody;
     //public GameObject PlayerSprite1;
     public GameLogic logic;
-    bool isPlayer1Alive = true;
+    bool isPlayerAlive = true;
 
 
     void Start()
@@ -20,9 +21,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //makes player move up(jump) when W is pressed only when bird is in play
-        if (isPlayer1Alive)
+        if (isPlayerAlive)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.W))
             {
                 playerRigidbody.velocity = Vector2.up * logic.JumpHeight;
             }
@@ -34,29 +35,37 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        //destroys the bird when it is off screen
+        else
+        {
+            destroyBird();
+        }
+
 
         //stops bird move when fallen below view
-        if (logic.DeadZoneY > transform.position.y) 
+        if (logic.DeadZoneY > transform.position.y)
         {
             //Debug.Log("bird position transform.position.y: " + transform.position.y);
             Debug.Log("game over - player off screen(y)");
-            
-        }
-
-        //destroys the bird when it is off screen
-        if (transform.position.y < -15)
-        {
-            Debug.Log("bird deleted");
-            Destroy(gameObject);
+            isPlayerAlive = false;
         }
     }
 
     //stops bird movement when hits pipe
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        logic.gameOver();
         Debug.Log("game over - hit pipe");
-        isPlayer1Alive = false;
+        isPlayerAlive = false;
+
+    }
+
+    public void destroyBird()
+    {
+        Debug.Log("bird1 deleted");
+        Destroy(gameObject);
+       
+        Debug.Log("game over run");
+        logic.gameOver();
 
     }
 

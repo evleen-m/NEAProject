@@ -14,6 +14,7 @@ public class GameLogic : MonoBehaviour
     public int timeCounter;
     public Text timeText;
 
+    private int gameOverRunTwice = 0;
 
 
     // Game Constants
@@ -44,6 +45,7 @@ public class GameLogic : MonoBehaviour
 
     }
 
+
     public void restartGame()
     {
         Debug.Log("Restarted game");
@@ -53,8 +55,14 @@ public class GameLogic : MonoBehaviour
 
     public void gameOver()
     {
-        gameOverDisplay.SetActive(true);        
-        timerPausedLogic.timerPaused = true;
+        gameOverRunTwice += 1;
+        Debug.Log("game over ran:"+gameOverRunTwice);
+
+        if (gameOverRunTwice == 2)
+        {
+            gameOverDisplay.SetActive(true);
+            timerPausedLogic.timerPaused = true;
+        }
     }
 
     public void LeaderboardPressed()
