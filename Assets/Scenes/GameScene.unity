@@ -700,21 +700,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 944343645}
-  livesText: {fileID: 997154081}
+  lifeText: {fileID: 997154081}
   gameOverDisplay: {fileID: 1775387927}
   hearts:
   - {fileID: 458608837}
   - {fileID: 1646177755}
   - {fileID: 751572266}
-  timeCounter: 0
   DeadZoneY: 5.1
   Ceiling: 15.3
   JumpHeight: 3
   playerScore: 0
-  playerLife: 3
+  lifeCounter: 3
+  numberOfPlayers: 1
   SpawnRate: 3
   HeightOffset: 4.5
-  numberOfPlayers: 1
 --- !u!4 &670468045
 Transform:
   m_ObjectHideFlags: 0

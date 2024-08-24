@@ -8,15 +8,13 @@ public class GameLogic : MonoBehaviour
 {
   
     public Text scoreText;
-    public Text livesText;
+    public Text lifeText;
  
 
     public GameObject gameOverDisplay;
     public GameObject[] hearts; 
     
     PipeSpawn timerPausedLogic;
-    
-    public int timeCounter;
     
 
     // Game Constants - do not change during runtime
@@ -26,16 +24,18 @@ public class GameLogic : MonoBehaviour
 
     // Game variables - changes during runtime
     public int playerScore;
-    public int playerLife = 3;
+    public int lifeCounter = 3;
+    public int numberOfPlayers = 1;
+
     public float SpawnRate;
     public float HeightOffset = 4.5f;
+    
     private int numGameOverRun = 0;
-    public int numberOfPlayers = 1;
 
 
     void Start()
     {
-        timerPausedLogic = GameObject.FindGameObjectWithTag("PipeSpawnLogic").GetComponent<PipeSpawn>();
+        timerPausedLogic = GameObject.FindGameObjectWithTag("PipeSpawnLogic").GetComponent<PipeSpawn>(); // used to allow variable with access to PipeSpawn
     }
 
     
@@ -66,29 +66,32 @@ public class GameLogic : MonoBehaviour
 
     public void gameOver()
     {
-
-        
         numGameOverRun += 1;
         Debug.Log("game over ran:"+ numGameOverRun);
 
-        // if the number of times game over is run is equal to the number of players in game the game is ended.
+        // if the number of times game over is run is equal to the number of players selected, the game is ended.
         // ensures all players have died and there is no remaining player.
-        // displays the game over screen and stops timer to stop pipes spawning
         if (numGameOverRun == numberOfPlayers)
         {
-            gameOverDisplay.SetActive(true);
-            timerPausedLogic.timerPaused = true;
+            timerPausedLogic.timerPaused = true; // stops game timer to stop pipes spawning
+            gameOverDisplay.SetActive(true); // displays gameover screen 
+            
+            destroyAllLives(); // destroys all hearts on screen 
         }
     }
 
     public void removeLife()
     {
-        playerLife -= 1;
-        livesText.text = playerLife.ToString();
+        // removes the next heart each time the procedure is called
 
-        Destroy(hearts[0]);
-
-        if (playerLife == 1)
+        lifeCounter -= 1; // removes one life from life counter
+        lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
+      
+        if (lifeCounter == 2)
+        {
+            Destroy(hearts[0]);
+        }
+        else if (lifeCounter == 1) 
         {
             Destroy(hearts[1]);
         }
@@ -96,7 +99,21 @@ public class GameLogic : MonoBehaviour
         {
             Destroy(hearts[2]);
         }
-
-
     }
+
+
+    private void destroyAllLives()
+    {
+        // is used as player may fall below view before losing all lives
+        // all active hearts would not be deleted, this procedure ensures that they will be
+
+        lifeCounter = 0; // sets lives to 0
+        lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
+        
+        for (int i = 0; i <= 2; i++) // loops through array to destroy all active hearts
+        {
+            Destroy(hearts[i]);
+        }
+    }
+    
 }

@@ -38,26 +38,25 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-       
+       // if bird falls below player view it is destroyed
         if (logic.DeadZoneY > transform.position.y)
         {
-            logic.playerLife = 0;
             destroyBird();
         }
 
     }
 
-    //causes bird to lose a life when it hits foreign object
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
-        
+        //causes bird to lose a life when it hits foreign object
+
         logic.removeLife();
-        Debug.Log("lost life - hit pipe: " +logic.playerLife);
+        Debug.Log("lost life - hit pipe. lives remaining: " +logic.lifeCounter);
 
         //if player life is 0 or below, isPlayerALive is set to false
-        //this stops the bird from taking inputs from user - game over
-        if (logic.playerLife <= 0)
+        //this stops the bird from taking inputs from user causes it to fall below screen - leads to game over
+        if (logic.lifeCounter <= 0)
         {
             isPlayerAlive = false;
         }
@@ -66,8 +65,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void destroyBird()
     {
+        
         Debug.Log("bird deleted");
         Destroy(gameObject);
+
+        // once bird is destroyed it calls gameOver() - displays the end screen
         Debug.Log("game over run");
         logic.gameOver();
 
