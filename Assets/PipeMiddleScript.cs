@@ -21,6 +21,7 @@ public class PipeMiddleScript : MonoBehaviour
     {
         if (collision.gameObject.layer == 3) { 
             logic.increaseScore(1);
+            
         }
     }
     

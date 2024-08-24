@@ -10,11 +10,10 @@ public class GameLogic : MonoBehaviour
     public Text scoreText;
     public Text lifeText;
  
-
     public GameObject gameOverDisplay;
     public GameObject[] hearts; 
     
-    PipeSpawn timerPausedLogic;
+    SpriteSpawn timerPausedLogic;
     
 
     // Game Constants - do not change during runtime
@@ -22,20 +21,24 @@ public class GameLogic : MonoBehaviour
     public float Ceiling = 15.3f;
     public float JumpHeight = 20f;
 
+    public float moveSpeed = 2.5f;
+    public float deadZoneX = -12f;
+
+
     // Game variables - changes during runtime
-    public int playerScore;
     public int lifeCounter = 3;
-    public int numberOfPlayers = 1;
 
     public float SpawnRate;
     public float HeightOffset = 4.5f;
-    
+
+    private int playerScore;
     private int numGameOverRun = 0;
+    private int numberOfPlayers = 1;
 
 
     void Start()
     {
-        timerPausedLogic = GameObject.FindGameObjectWithTag("PipeSpawnLogic").GetComponent<PipeSpawn>(); // used to allow variable with access to PipeSpawn
+        timerPausedLogic = GameObject.FindGameObjectWithTag("PipeSpawnLogic").GetComponent<SpriteSpawn>(); // used to allow access to the class PipeSpawn
     }
 
     
@@ -115,5 +118,5 @@ public class GameLogic : MonoBehaviour
             Destroy(hearts[i]);
         }
     }
-    
+
 }

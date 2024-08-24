@@ -355,11 +355,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -911286555
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2118cd1936e15274985332fdecdba9ba, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9803922, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -709,9 +709,9 @@ MonoBehaviour:
   DeadZoneY: 5.1
   Ceiling: 15.3
   JumpHeight: 3
-  playerScore: 0
+  moveSpeed: 2.5
+  deadZoneX: -12
   lifeCounter: 3
-  numberOfPlayers: 1
   SpawnRate: 3
   HeightOffset: 4.5
 --- !u!4 &670468045
@@ -947,11 +947,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -911286555
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2118cd1936e15274985332fdecdba9ba, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9811321, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1120,8 +1120,8 @@ GameObject:
   m_Component:
   - component: {fileID: 791097013}
   - component: {fileID: 791097012}
-  m_Layer: 0
-  m_Name: PipeSpawner
+  m_Layer: 3
+  m_Name: SpriteSpawner
   m_TagString: PipeSpawnLogic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1140,9 +1140,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pipe: {fileID: 8368625598130247281, guid: 358b7e6e143b74948bc2cd252201d100, type: 3}
+  star: {fileID: 663467802139816676, guid: 66666ebd757ad714b8776b48dd9533ff, type: 3}
   logic: {fileID: 0}
   timerPaused: 0
   gotSpawnRate: 1
+  lowestPoint: 0
+  highestPoint: 0
+  toSpawn: 
 --- !u!4 &791097013
 Transform:
   m_ObjectHideFlags: 0
@@ -1387,7 +1391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8705883, g: 0.3019608, b: 0.37647063, a: 1}
+  m_Color: {r: 0.9803922, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1408,6 +1412,37 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 3
+--- !u!1 &1018340577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1018340578}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1018340578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018340577}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5697973, y: 10.316298, z: 897.18726}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1123829847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1755,7 +1790,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: -911286555
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1290893319
 RectTransform:
@@ -1850,11 +1885,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -911286555
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2118cd1936e15274985332fdecdba9ba, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9803922, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1908,3 +1943,4 @@ SceneRoots:
   - {fileID: 791097013}
   - {fileID: 1290893319}
   - {fileID: 670468045}
+  - {fileID: 1018340578}
