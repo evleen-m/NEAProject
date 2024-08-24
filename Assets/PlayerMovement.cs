@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     bool isPlayerAlive = true;
 
 
+
     void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
@@ -20,50 +21,53 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        //makes player move up(jump) when W is pressed only when bird is in play
         if (isPlayerAlive)
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
                 playerRigidbody.velocity = Vector2.up * logic.JumpHeight;
+                //moves player up by jumpheight when W is pressed and bird is in play
             }
 
             if (transform.position.y > logic.Ceiling)
             {
                 transform.position = new Vector3(transform.position.x, logic.Ceiling, 0);
                 Debug.Log("bird position transform.position.y: " + transform.position.y);
+                //moves bird down to if it goes above ceiling - stops players from flying off screen and over pipes
             }
         }
 
-        //destroys the bird when it is off screen
-        else
+
+       
+        if (logic.DeadZoneY > transform.position.y)
         {
+            logic.playerLife = 0;
             destroyBird();
         }
 
-
-        //stops bird move when fallen below view
-        if (logic.DeadZoneY > transform.position.y)
-        {
-            //Debug.Log("bird position transform.position.y: " + transform.position.y);
-            Debug.Log("game over - player off screen(y)");
-            isPlayerAlive = false;
-        }
     }
 
-    //stops bird movement when hits pipe
+    //causes bird to lose a life when it hits foreign object
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("game over - hit pipe");
-        isPlayerAlive = false;
+        
+        
+        logic.removeLife();
+        Debug.Log("lost life - hit pipe: " +logic.playerLife);
+
+        //if player life is 0 or below, isPlayerALive is set to false
+        //this stops the bird from taking inputs from user - game over
+        if (logic.playerLife <= 0)
+        {
+            isPlayerAlive = false;
+        }
 
     }
 
     public void destroyBird()
     {
-        Debug.Log("bird1 deleted");
+        Debug.Log("bird deleted");
         Destroy(gameObject);
-       
         Debug.Log("game over run");
         logic.gameOver();
 

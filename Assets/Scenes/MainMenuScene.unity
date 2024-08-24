@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 5994394}
   - component: {fileID: 5994393}
   m_Layer: 5
-  m_Name: Tutorial
+  m_Name: ButtonTutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 459806752}
   - component: {fileID: 459806751}
   m_Layer: 5
-  m_Name: Start
+  m_Name: ButtonStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -805,7 +805,7 @@ GameObject:
   - component: {fileID: 664840823}
   - component: {fileID: 664840822}
   m_Layer: 5
-  m_Name: Leaderboard
+  m_Name: ButtonLeaderboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1152,7 +1152,7 @@ GameObject:
   - component: {fileID: 1707872467}
   - component: {fileID: 1707872466}
   m_Layer: 5
-  m_Name: GameTitle
+  m_Name: GameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1287,7 +1287,7 @@ GameObject:
   - component: {fileID: 1750336728}
   - component: {fileID: 1750336727}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: ButtonQuit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

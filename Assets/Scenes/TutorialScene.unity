@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 161717159}
   - component: {fileID: 161717158}
   m_Layer: 5
-  m_Name: TutorialTitle
+  m_Name: TitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -792,7 +792,7 @@ GameObject:
   - component: {fileID: 1991643947}
   - component: {fileID: 1991643946}
   m_Layer: 5
-  m_Name: Return
+  m_Name: ButtonReturn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
