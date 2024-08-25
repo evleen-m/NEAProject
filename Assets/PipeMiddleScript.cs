@@ -16,7 +16,7 @@ public class PipeMiddleScript : MonoBehaviour
         
     }
 
-    //checks bird passed through pipes and increases score
+    //checks bird passed through pipes and increases score by 1
     private void OnTriggerEnter2D(Collider2D collision) 
     {
         if (collision.gameObject.layer == 3) { 

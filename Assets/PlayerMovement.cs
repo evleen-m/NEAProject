@@ -50,9 +50,16 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //causes bird to lose a life when it hits foreign object
-
         logic.removeLife();
-        Debug.Log("lost life - hit pipe. lives remaining: " +logic.lifeCounter);
+        //used for debugging ans identifying which object the player came into contact with
+        if (gameObject.CompareTag("Pipe"))
+        {
+            Debug.Log("lost life - hit pipe. lives remaining: " + logic.lifeCounter);
+        }
+        else if (gameObject.CompareTag("Bat"))
+        {
+            Debug.Log("lost life - hit bat. lives remaining: " + logic.lifeCounter);
+        }
 
         //if player life is 0 or below, isPlayerALive is set to false
         //this stops the bird from taking inputs from user causes it to fall below screen - leads to game over

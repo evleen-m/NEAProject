@@ -9,6 +9,7 @@ public class SpriteSpawn : MonoBehaviour
 {
     public GameObject pipe;
     public GameObject star;
+    public GameObject bat;
     public GameLogic logic;
 
 
@@ -17,7 +18,7 @@ public class SpriteSpawn : MonoBehaviour
     private float spawnRate = 3;
 
     [SerializeField]
-    private bool gotSpawnRate = true;
+    private bool toGetSpawnRate = true;
 
     [SerializeField]
     private float lowestPoint;
@@ -27,7 +28,7 @@ public class SpriteSpawn : MonoBehaviour
 
 
 
-    public List<int> toSpawn = new List<int>();
+    public List<int> listSpritesToSpawn = new List<int>();
 
 
     void Start()
@@ -41,17 +42,17 @@ public class SpriteSpawn : MonoBehaviour
     {
         if (!timerPaused)
         {
-            if (!toSpawn.Any()) // checks if list is empty
+            if (!listSpritesToSpawn.Any()) // checks if list is empty
             {
                 generateListToSpawn();
             }
 
-            if (gotSpawnRate)
+            if (toGetSpawnRate)
             {
                 // Gets a new spawn rate after each object is spawed - varies the distance of new object to the object in front
                 // is only run after each object has been spawned
                 spawnRate = logic.RandomSpawn();
-                gotSpawnRate = false;
+                toGetSpawnRate = false;
             }
 
             if (timer < spawnRate)
@@ -62,7 +63,7 @@ public class SpriteSpawn : MonoBehaviour
             else // runs when timer is greater than spawnRate
             {
                 // first save into variable
-                int gamePiece = toSpawn[0];
+                int gamePiece = listSpritesToSpawn[0];
 
                 // spawn corresopnding game object
                 switch(gamePiece){
@@ -72,14 +73,17 @@ public class SpriteSpawn : MonoBehaviour
                     case 1:
                         spawnStar();
                         break;
+                    case 2:
+                        spawnBat();
+                        break;
                 }
 
                 // then remove it from the list
-                toSpawn.RemoveAt(0);
+                listSpritesToSpawn.RemoveAt(0);
 
                 // resets the timer and gotSpawnRate
                 timer = 0;
-                gotSpawnRate = true;
+                toGetSpawnRate = true;
             }
 
         }
@@ -87,23 +91,22 @@ public class SpriteSpawn : MonoBehaviour
 
     private void generateListToSpawn()
     {
-        for (int i = 0; i <=3; i++)
+        //adds four seperate 0s to the list (represents pipes)
+        for (int i = 1; i <=4; i++)
         {
-            toSpawn.Add(0);
+            listSpritesToSpawn.Add(0);
         }
-        toSpawn.Add(1);
 
-        toSpawn = toSpawn.OrderBy(x => Guid.NewGuid()).ToList(); // this randomises the sprites in the list - ensures they spawn in random order 
+        //adds two seperate 2s to the list (represents bats)
+        for (int i = 1; i <= 2; i++)
+        {
+            listSpritesToSpawn.Add(2);
+        }
+        //adds a 1 to the end of list (represents star)
+        listSpritesToSpawn.Add(1);
 
-        //for (int i = toSpawn.Count - 1; i > 0; i--)
-        //{
-        //    var j = UnityEngine.Random.Range(i + 1, toSpawn.Count - i);
-        //    var k = toSpawn[j];
-        //    toSpawn[j] = toSpawn[i];
-        //    toSpawn[i] = k;
-        //}
-
-        Debug.Log(toSpawn.Count());
+        listSpritesToSpawn = listSpritesToSpawn.OrderBy(x => Guid.NewGuid()).ToList(); // this randomises the sprites in the list - ensures they spawn in random order 
+        Debug.Log(listSpritesToSpawn.Count()); //used to check there are items in list
     }
 
     private void setHeightLimits()
@@ -118,6 +121,12 @@ public class SpriteSpawn : MonoBehaviour
         setHeightLimits();
         Instantiate(pipe, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
         // spawns a new instance of pipe at the randomly selected height
+    }
+    private void spawnBat()
+    {
+        setHeightLimits();
+        Instantiate(bat, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
+        // spawns a new instance of bat at the randomly selected height
     }
 
     private void spawnStar()

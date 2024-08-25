@@ -6,7 +6,10 @@ TagManager:
   tags:
   - Logic
   - EventsManager
-  - PipeSpawnLogic
+  - Pipe
+  - SpriteSpawnLogic
+  - Star
+  - Bat
   layers:
   - Default
   - TransparentFX

@@ -710,7 +710,7 @@ MonoBehaviour:
   Ceiling: 15.3
   JumpHeight: 3
   moveSpeed: 2.5
-  deadZoneX: -12
+  deadZoneX: -14
   lifeCounter: 3
   SpawnRate: 3
   HeightOffset: 4.5
@@ -723,7 +723,7 @@ Transform:
   m_GameObject: {fileID: 670468043}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.12565278, y: 11.843088, z: -1.941375}
+  m_LocalPosition: {x: -0.12565278, y: 9.97, z: -1.941375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1122,7 +1122,7 @@ GameObject:
   - component: {fileID: 791097012}
   m_Layer: 3
   m_Name: SpriteSpawner
-  m_TagString: PipeSpawnLogic
+  m_TagString: SpriteSpawnLogic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1141,12 +1141,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pipe: {fileID: 8368625598130247281, guid: 358b7e6e143b74948bc2cd252201d100, type: 3}
   star: {fileID: 663467802139816676, guid: 66666ebd757ad714b8776b48dd9533ff, type: 3}
+  bat: {fileID: 826646872908755370, guid: 2fd68a7c832082b4e815f33a81c1735d, type: 3}
   logic: {fileID: 0}
   timerPaused: 0
-  gotSpawnRate: 1
+  toGetSpawnRate: 1
   lowestPoint: 0
   highestPoint: 0
-  toSpawn: 
+  listSpritesToSpawn: 
 --- !u!4 &791097013
 Transform:
   m_ObjectHideFlags: 0
@@ -1156,7 +1157,7 @@ Transform:
   m_GameObject: {fileID: 791097011}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: 10, z: -1.9705466}
+  m_LocalPosition: {x: 13, y: 10, z: -1.9705466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1412,37 +1413,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 3
---- !u!1 &1018340577
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1018340578}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1018340578
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1018340577}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5697973, y: 10.316298, z: 897.18726}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1123829847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1943,4 +1913,3 @@ SceneRoots:
   - {fileID: 791097013}
   - {fileID: 1290893319}
   - {fileID: 670468045}
-  - {fileID: 1018340578}

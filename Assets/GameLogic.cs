@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameLogic : MonoBehaviour
 {
@@ -14,15 +15,16 @@ public class GameLogic : MonoBehaviour
     public GameObject[] hearts; 
     
     SpriteSpawn timerPausedLogic;
-    
+
 
     // Game Constants - do not change during runtime
-    public float DeadZoneY = 5.1f;
+
+    public float DeadZoneY = 4.9f;
     public float Ceiling = 15.3f;
-    public float JumpHeight = 20f;
+    public float JumpHeight = 3f;
 
     public float moveSpeed = 2.5f;
-    public float deadZoneX = -12f;
+    public float deadZoneX = -14f;
 
 
     // Game variables - changes during runtime
@@ -38,14 +40,15 @@ public class GameLogic : MonoBehaviour
 
     void Start()
     {
-        timerPausedLogic = GameObject.FindGameObjectWithTag("PipeSpawnLogic").GetComponent<SpriteSpawn>(); // used to allow access to the class PipeSpawn
+        timerPausedLogic = GameObject.FindGameObjectWithTag("SpriteSpawnLogic").GetComponent<SpriteSpawn>(); // used to allow access to the class PipeSpawn
+            
     }
 
     
     public float RandomSpawn()
     {
         // Randomly generates a spawn rate for pipes - pipes spawn at different distances to each other
-        SpawnRate = Random.Range(2,6);
+        SpawnRate = UnityEngine.Random.Range(2,6);
         return SpawnRate;
     }
 
