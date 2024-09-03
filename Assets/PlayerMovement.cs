@@ -11,7 +11,8 @@ public class PlayerMovement : MonoBehaviour
     //public GameObject PlayerSprite1;
     public GameLogic logic;
     bool isPlayerAlive = true;
-
+    float immunityCounter = 0f;
+    bool hasImmunity = false;
 
 
     void Start()
@@ -21,44 +22,54 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        CheckToResetImmunity();
+
+        immunityCounter += Time.deltaTime;
+        
         if (isPlayerAlive)
         {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                playerRigidbody.velocity = Vector2.up * logic.JumpHeight;
-                //moves player up by jumpheight when W is pressed and bird is in play
-            }
-
-            if (transform.position.y > logic.Ceiling)
-            {
-                transform.position = new Vector3(transform.position.x, logic.Ceiling, 0);
-                Debug.Log("bird position transform.position.y: " + transform.position.y);
-                //moves bird down to if it goes above ceiling - stops players from flying off screen and over pipes
-            }
+           ValidPlayerMovement();
         }
 
 
        // if bird falls below player view it is destroyed
         if (logic.DeadZoneY > transform.position.y)
         {
-            destroyBird();
+            DestroyBird();
         }
 
     }
 
-    
+    private void ValidPlayerMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            playerRigidbody.velocity = Vector2.up * logic.JumpHeight;
+            //moves player up by jumpheight when W is pressed and bird is in play
+        }
+
+        if (transform.position.y > logic.Ceiling)
+        {
+            transform.position = new Vector3(transform.position.x, logic.Ceiling, 0);
+            Debug.Log("bird position transform.position.y: " + transform.position.y);
+            //moves bird down to if it goes above ceiling - stops players from flying off screen and over pipes
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //causes bird to lose a life when it hits foreign object
-        logic.removeLife();
-        //used for debugging ans identifying which object the player came into contact with
-        if (gameObject.CompareTag("Pipe"))
+        // if (immunity) { return; }
+        if (hasImmunity)
         {
-            Debug.Log("lost life - hit pipe. lives remaining: " + logic.lifeCounter);
+            return;
         }
-        else if (gameObject.CompareTag("Bat"))
+        else
         {
-            Debug.Log("lost life - hit bat. lives remaining: " + logic.lifeCounter);
+            //causes bird to lose a life when it hits foreign object
+            logic.RemoveLife();
+            //used for debugging ans identifying which object the player came into contact with
+            IdentifyObjectCollision();
+            hasImmunity = true;
         }
 
         //if player life is 0 or below, isPlayerALive is set to false
@@ -67,22 +78,37 @@ public class PlayerMovement : MonoBehaviour
         {
             isPlayerAlive = false;
         }
-
     }
 
-    public void destroyBird()
+    public void CheckToResetImmunity()
     {
-        
+        if (immunityCounter == 3 && hasImmunity)
+        {
+            hasImmunity = false;
+        }
+    }
+
+    public void DestroyBird()
+    {
         Debug.Log("bird deleted");
         Destroy(gameObject);
 
         // once bird is destroyed it calls gameOver() - displays the end screen
         Debug.Log("game over run");
-        logic.gameOver();
-
+        logic.GameOver();
     }
 
-
+    private void IdentifyObjectCollision()
+    {
+        if (gameObject.CompareTag("Pipe"))
+        {
+            Debug.Log("lost life - hit pipe. lives remaining: " + logic.lifeCounter);
+        }
+        else if (gameObject.CompareTag("Bat"))
+        {
+            Debug.Log("lost life - hit bat. lives remaining: " + logic.lifeCounter);
+        }
+    }
 }
 
 

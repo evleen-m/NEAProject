@@ -11,16 +11,12 @@ public class PipeMiddleScript : MonoBehaviour
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
     }
 
-    void Update()
-    {
-        
-    }
 
     //checks bird passed through pipes and increases score by 1
     private void OnTriggerEnter2D(Collider2D collision) 
     {
         if (collision.gameObject.layer == 3) { 
-            logic.increaseScore(1);
+            logic.IncreaseScore(1);
             
         }
     }

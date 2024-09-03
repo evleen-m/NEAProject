@@ -9,57 +9,45 @@ public class Bat : MonoBehaviour
     private bool moveTargetIsHigher;
     private float lowestPoint = 5.2f;
     private float highestPoint = 15.5f;
-    [SerializeField] private float timer = 0;
+    [SerializeField] private float wobbleTimer = 0;
 
-    [SerializeField] private float spawnRate = 2;
+    [SerializeField] private float wobbleRate = 2;
 
     void Start()
     {
-
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (timer > spawnRate )
+
+        transform.Rotate(Vector3.forward * -0.5f); //very slightly roates the bat by 0.5 each frame
+
+        if (moveTargetIsHigher) // following code is executed if the target position for the bat to be moved to is higher than the current bat position 
         {
-            transform.Rotate(Vector3.forward * -90);
-            transform.Rotate(Vector3.forward * 90);
-            timer = 0;
-        }
-        else
-        { // increases timer by the time taken to get from last frame to current frame (in seconds)
-            timer += Time.deltaTime;
-        }
-
-
-        if (moveTargetIsHigher)
-        {
-            moveBatUp();
-
+            MoveBatUp();
             if (transform.position.y > highestPoint)
             {
-                moveTargetIsHigher = false;
+                moveTargetIsHigher = false; // sets the target position for bat to be moved to as the 
             }
         }
-
         else
         {
-            moveBatDown();
+            MoveBatDown();
             if (transform.position.y < lowestPoint)
             {
                 moveTargetIsHigher = true;
             }
         }
-
     }
 
-    private void moveBatUp()
+    private void MoveBatUp()
     {
         transform.position = transform.position + (Vector3.up * logic.moveSpeed) * Time.deltaTime;
     }
-    private void moveBatDown()
+
+    private void MoveBatDown()
     {
         transform.position = transform.position + (Vector3.down * logic.moveSpeed) * Time.deltaTime;
     }

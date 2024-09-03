@@ -53,7 +53,7 @@ public class GameLogic : MonoBehaviour
     }
 
 
-    public void increaseScore(int incrementValue)
+    public void IncreaseScore(int incrementValue)
     {
         // Increases playerScore by one when called
         // Displays the updated score
@@ -62,7 +62,7 @@ public class GameLogic : MonoBehaviour
 
     }
 
-    public void restartGame()
+    public void RestartGame()
     {
         // Loads the pre game scene when button is clicked
         Debug.Log("Restarted game");
@@ -70,7 +70,7 @@ public class GameLogic : MonoBehaviour
         SceneManager.LoadScene("PreGameScene");
     }
 
-    public void gameOver()
+    public void GameOver()
     {
         numGameOverRun += 1;
         Debug.Log("game over ran:"+ numGameOverRun);
@@ -82,11 +82,11 @@ public class GameLogic : MonoBehaviour
             timerPausedLogic.timerPaused = true; // stops game timer to stop pipes spawning
             gameOverDisplay.SetActive(true); // displays gameover screen 
             
-            destroyAllLives(); // destroys all hearts on screen 
+            DestroyAllLives(); // destroys all hearts on screen 
         }
     }
 
-    public void removeLife()
+    public void RemoveLife()
     {
         // removes the next heart each time the procedure is called
 
@@ -108,7 +108,7 @@ public class GameLogic : MonoBehaviour
     }
 
 
-    private void destroyAllLives()
+    private void DestroyAllLives()
     {
         // is used as player may fall below view before losing all lives
         // all active hearts would not be deleted, this procedure ensures that they will be

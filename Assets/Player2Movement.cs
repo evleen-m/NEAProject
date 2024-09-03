@@ -65,7 +65,7 @@ public class Player2Movement : MonoBehaviour
         Destroy(gameObject);
 
         Debug.Log("game over run");
-        logic.gameOver();
+        logic.GameOver();
 
     }
 

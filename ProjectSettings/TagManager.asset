@@ -10,6 +10,7 @@ TagManager:
   - SpriteSpawnLogic
   - Star
   - Bat
+  - Lazer
   layers:
   - Default
   - TransparentFX

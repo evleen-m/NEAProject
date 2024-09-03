@@ -14,14 +14,15 @@ public class Star : MonoBehaviour
     void Update()
     {
 
+        transform.Rotate(Vector3.forward * 1);
     }
 
-    //checks bird passed through pipes and increases score
+    //checks bird passed through star and increases score
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == 3)
         {
-            logic.increaseScore(3);
+            logic.IncreaseScore(3);
             Destroy(gameObject);
         }
     }

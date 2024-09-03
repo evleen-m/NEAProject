@@ -24,23 +24,28 @@ public class SpriteMovement : MonoBehaviour
 
 
         // checks if object is out of frame and deletes it if it is
-        // additional checks to identify the type of object that was destroyed
         if (logic.deadZoneX > transform.position.x)
         {
-            if (gameObject.CompareTag("Pipe"))
-            {
-                Debug.Log("Pipe deleted transform.position.x: " + transform.position.x);
-            }
-            else if (gameObject.CompareTag("Star"))
-            {
-                Debug.Log("Star deleted transform.position.x: " + transform.position.x);
-            }
-            else if (gameObject.CompareTag("Bat"))
-            {
-                Debug.Log("Bat deleted transform.position.x: " + transform.position.x);
-            }
+            IdentifyObjectDeleted();
             Destroy(gameObject);
         }
 
+    }
+    
+        // additional checks to identify the type of object that was destroyed
+    private void IdentifyObjectDeleted()
+    {
+        if (gameObject.CompareTag("Pipe"))
+        {
+            Debug.Log("Pipe deleted transform.position.x: " + transform.position.x);
+        }
+        else if (gameObject.CompareTag("Star"))
+        {
+            Debug.Log("Star deleted transform.position.x: " + transform.position.x);
+        }
+        else if (gameObject.CompareTag("Bat"))
+        {
+            Debug.Log("Bat deleted transform.position.x: " + transform.position.x);
+        }
     }
 }

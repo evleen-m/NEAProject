@@ -488,7 +488,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 670468044}
         m_TargetAssemblyTypeName: GameLogic, Assembly-CSharp
-        m_MethodName: restartGame
+        m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1142,6 +1142,7 @@ MonoBehaviour:
   pipe: {fileID: 8368625598130247281, guid: 358b7e6e143b74948bc2cd252201d100, type: 3}
   star: {fileID: 663467802139816676, guid: 66666ebd757ad714b8776b48dd9533ff, type: 3}
   bat: {fileID: 826646872908755370, guid: 2fd68a7c832082b4e815f33a81c1735d, type: 3}
+  lazer: {fileID: 733430453911628738, guid: de0992256c6149d47989f89d2fcd5850, type: 3}
   logic: {fileID: 0}
   timerPaused: 0
   toGetSpawnRate: 1

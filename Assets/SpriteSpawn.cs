@@ -10,6 +10,7 @@ public class SpriteSpawn : MonoBehaviour
     public GameObject pipe;
     public GameObject star;
     public GameObject bat;
+    public GameObject lazer;
     public GameLogic logic;
 
 
@@ -44,7 +45,7 @@ public class SpriteSpawn : MonoBehaviour
         {
             if (!listSpritesToSpawn.Any()) // checks if list is empty
             {
-                generateListToSpawn();
+                GenerateListToSpawn();
             }
 
             if (toGetSpawnRate)
@@ -68,13 +69,16 @@ public class SpriteSpawn : MonoBehaviour
                 // spawn corresopnding game object
                 switch(gamePiece){
                     case 0:
-                        spawnPipe();
+                        SpawnPipe();
                         break;
                     case 1:
-                        spawnStar();
+                        SpawnStar();
                         break;
                     case 2:
-                        spawnBat();
+                        SpawnBat();
+                        break;
+                    case 3:
+                        SpawnLazer();
                         break;
                 }
 
@@ -89,7 +93,7 @@ public class SpriteSpawn : MonoBehaviour
         }
     }
 
-    private void generateListToSpawn()
+    private void GenerateListToSpawn()
     {
         //adds four seperate 0s to the list (represents pipes)
         for (int i = 1; i <=4; i++)
@@ -104,34 +108,42 @@ public class SpriteSpawn : MonoBehaviour
         }
         //adds a 1 to the end of list (represents star)
         listSpritesToSpawn.Add(1);
+        //adds a 3 to the end of list (represents lazer)
+        listSpritesToSpawn.Add(3);
 
         listSpritesToSpawn = listSpritesToSpawn.OrderBy(x => Guid.NewGuid()).ToList(); // this randomises the sprites in the list - ensures they spawn in random order 
         Debug.Log(listSpritesToSpawn.Count()); //used to check there are items in list
     }
 
-    private void setHeightLimits()
+    private void SetHeightLimits()
     {
         // sets the lowest and highest points that pipe can spawn at
         lowestPoint = transform.position.y - logic.HeightOffset;
         highestPoint = transform.position.y + logic.HeightOffset;
     }
 
-    private void spawnPipe()
+    private void SpawnPipe()
     {
-        setHeightLimits();
+        SetHeightLimits();
         Instantiate(pipe, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
         // spawns a new instance of pipe at the randomly selected height
     }
-    private void spawnBat()
+    private void SpawnBat()
     {
-        setHeightLimits();
+        SetHeightLimits();
         Instantiate(bat, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
         // spawns a new instance of bat at the randomly selected height
     }
 
-    private void spawnStar()
+    private void SpawnLazer()
     {
-        setHeightLimits();
+        SetHeightLimits();
+        Instantiate(lazer, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
+        // spawns a new instance of bat at the randomly selected height
+    }
+    private void SpawnStar()
+    {
+        SetHeightLimits();
         Instantiate(star, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
         // spawns a new instance of star at the randomly selected height
     }
