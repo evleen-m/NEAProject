@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 
-public class Lazer : MonoBehaviour
+public class Lightning : MonoBehaviour
 {
     public GameLogic logic;
     [SerializeField] private float timer = 0;
@@ -20,18 +20,27 @@ public class Lazer : MonoBehaviour
     {
         if (timer > inactiveTime)
         {
-            SetLazerActive();
+            SetLightningActive();
             timer = 0;
         }
         else
         { // increases timer by the time taken to get from last frame to current frame (in seconds)
             timer += Time.deltaTime;
         }
+
+        //if (transform.position.z >= 5f)
+        //{
+        //    transform.Rotate(Vector3.forward * 1f); //very slightly roates the bat by 0.5 each frame
+        //}
+        //else
+        //{
+        //    transform.Rotate(Vector3.forward * -1f); //very slightly roates the bat by 0.5 each frame
+        //}
     }
 
-    private void SetLazerActive()
+    private void SetLightningActive()
     {
-        spriteRenderer.color = new Color(0.4150943f, 0.04894979f, 0.04894979f, 1f);
+        spriteRenderer.color = new Color(1f, 0.5506037f, 0f, 1f);
 
         GetComponent<Collider2D>().enabled = true;
     }
@@ -41,7 +50,7 @@ public class Lazer : MonoBehaviour
         if (collision.gameObject.layer == 3)
         {
             logic.RemoveLife();
-            
+
         }
     }
 }

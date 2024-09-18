@@ -9,9 +9,6 @@ public class Bat : MonoBehaviour
     private bool moveTargetIsHigher;
     private float lowestPoint = 5.2f;
     private float highestPoint = 15.5f;
-    [SerializeField] private float wobbleTimer = 0;
-
-    [SerializeField] private float wobbleRate = 2;
 
     void Start()
     {

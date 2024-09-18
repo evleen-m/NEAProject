@@ -12,19 +12,19 @@ public class GameLogic : MonoBehaviour
     public Text lifeText;
  
     public GameObject gameOverDisplay;
+    public GameObject extraLife;
     public GameObject[] hearts; 
     
     SpriteSpawn timerPausedLogic;
 
 
-    // Game Constants - do not change during runtime
-
+    // Game Constants - do not change during runtime can be placed into the classes??
     public float DeadZoneY = 4.9f;
-    public float Ceiling = 15.3f;
-    public float JumpHeight = 3f;
-
-    public float moveSpeed = 2.5f;
     public float deadZoneX = -14f;
+    public float Ceiling = 15.3f;
+
+    public float JumpHeight = 3f;
+    public float moveSpeed = 2.5f;
 
 
     // Game variables - changes during runtime
@@ -44,7 +44,7 @@ public class GameLogic : MonoBehaviour
             
     }
 
-    
+
     public float RandomSpawn()
     {
         // Randomly generates a spawn rate for pipes - pipes spawn at different distances to each other
@@ -62,6 +62,7 @@ public class GameLogic : MonoBehaviour
 
     }
 
+
     public void RestartGame()
     {
         // Loads the pre game scene when button is clicked
@@ -69,6 +70,7 @@ public class GameLogic : MonoBehaviour
         Debug.Log("Pre Game Scene is loaded");
         SceneManager.LoadScene("PreGameScene");
     }
+
 
     public void GameOver()
     {
@@ -86,6 +88,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
+
     public void RemoveLife()
     {
         // removes the next heart each time the procedure is called
@@ -95,18 +98,41 @@ public class GameLogic : MonoBehaviour
       
         if (lifeCounter == 2)
         {
-            Destroy(hearts[0]);
+            hearts[0].SetActive(false);
+
         }
         else if (lifeCounter == 1) 
         {
-            Destroy(hearts[1]);
+            hearts[1].SetActive(false);
+
+        }
+        else if (lifeCounter == 0) 
+        {
+            hearts[2].SetActive(false);
+
+        }
+
+        Debug.Log("lost life");
+    }
+
+    public void AddLife()
+    {
+        if (lifeCounter == 3)
+        {
+
         }
         else
         {
-            Destroy(hearts[2]);
+            lifeCounter = 3;
+            lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
+            
+            for (int i = 0; i <= 2; i++) // loops through array to add all  hearts
+            {
+                hearts[i].SetActive(true);
+            }
+
         }
     }
-
 
     private void DestroyAllLives()
     {
@@ -118,8 +144,7 @@ public class GameLogic : MonoBehaviour
         
         for (int i = 0; i <= 2; i++) // loops through array to destroy all active hearts
         {
-            Destroy(hearts[i]);
+            hearts[i].SetActive(false);
         }
     }
-
 }

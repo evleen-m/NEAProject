@@ -10,7 +10,7 @@ TagManager:
   - SpriteSpawnLogic
   - Star
   - Bat
-  - Lazer
+  - Lightning
   layers:
   - Default
   - TransparentFX

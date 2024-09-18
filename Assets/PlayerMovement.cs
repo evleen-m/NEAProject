@@ -23,9 +23,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         CheckToResetImmunity();
-
         immunityCounter += Time.deltaTime;
-        
+
         if (isPlayerAlive)
         {
            ValidPlayerMovement();
@@ -70,6 +69,9 @@ public class PlayerMovement : MonoBehaviour
             //used for debugging ans identifying which object the player came into contact with
             IdentifyObjectCollision();
             hasImmunity = true;
+            immunityCounter = 0;
+
+            Debug.Log("Immunity is active");
         }
 
         //if player life is 0 or below, isPlayerALive is set to false
@@ -82,9 +84,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void CheckToResetImmunity()
     {
-        if (immunityCounter == 3 && hasImmunity)
+        if (immunityCounter >= 3 && hasImmunity)
         {
             hasImmunity = false;
+            Debug.Log("Reset immunity");
         }
     }
 
@@ -98,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         logic.GameOver();
     }
 
-    private void IdentifyObjectCollision()
+    public void IdentifyObjectCollision()
     {
         if (gameObject.CompareTag("Pipe"))
         {
@@ -107,6 +110,10 @@ public class PlayerMovement : MonoBehaviour
         else if (gameObject.CompareTag("Bat"))
         {
             Debug.Log("lost life - hit bat. lives remaining: " + logic.lifeCounter);
+        }
+        else if (gameObject.CompareTag("Lightning"))
+        {
+            Debug.Log("lost life - hit lightning. lives remaining: " + logic.lifeCounter);
         }
     }
 }

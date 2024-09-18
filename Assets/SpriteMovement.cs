@@ -32,7 +32,7 @@ public class SpriteMovement : MonoBehaviour
 
     }
     
-        // additional checks to identify the type of object that was destroyed
+    // additional checks to identify the type of object that was destroyed
     private void IdentifyObjectDeleted()
     {
         if (gameObject.CompareTag("Pipe"))
@@ -46,6 +46,10 @@ public class SpriteMovement : MonoBehaviour
         else if (gameObject.CompareTag("Bat"))
         {
             Debug.Log("Bat deleted transform.position.x: " + transform.position.x);
+        }
+        else if (gameObject.CompareTag("Lightning"))
+        {
+            Debug.Log("Lightning deleted transform.position.x: " + transform.position.x);
         }
     }
 }

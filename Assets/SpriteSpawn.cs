@@ -10,7 +10,8 @@ public class SpriteSpawn : MonoBehaviour
     public GameObject pipe;
     public GameObject star;
     public GameObject bat;
-    public GameObject lazer;
+    public GameObject lightning;
+    public GameObject extraLife;
     public GameLogic logic;
 
 
@@ -78,7 +79,10 @@ public class SpriteSpawn : MonoBehaviour
                         SpawnBat();
                         break;
                     case 3:
-                        SpawnLazer();
+                        SpawnLightning();
+                        break;
+                    case 4:
+                        SpawnExtraLife();
                         break;
                 }
 
@@ -108,8 +112,9 @@ public class SpriteSpawn : MonoBehaviour
         }
         //adds a 1 to the end of list (represents star)
         listSpritesToSpawn.Add(1);
-        //adds a 3 to the end of list (represents lazer)
+        //adds a 3 to the end of list (represents lightning)
         listSpritesToSpawn.Add(3);
+        listSpritesToSpawn.Add(4);
 
         listSpritesToSpawn = listSpritesToSpawn.OrderBy(x => Guid.NewGuid()).ToList(); // this randomises the sprites in the list - ensures they spawn in random order 
         Debug.Log(listSpritesToSpawn.Count()); //used to check there are items in list
@@ -120,12 +125,13 @@ public class SpriteSpawn : MonoBehaviour
         // sets the lowest and highest points that pipe can spawn at
         lowestPoint = transform.position.y - logic.HeightOffset;
         highestPoint = transform.position.y + logic.HeightOffset;
+
     }
 
     private void SpawnPipe()
     {
         SetHeightLimits();
-        Instantiate(pipe, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
+        Instantiate(pipe, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint),0), transform.rotation);
         // spawns a new instance of pipe at the randomly selected height
     }
     private void SpawnBat()
@@ -135,10 +141,10 @@ public class SpriteSpawn : MonoBehaviour
         // spawns a new instance of bat at the randomly selected height
     }
 
-    private void SpawnLazer()
+    private void SpawnLightning()
     {
         SetHeightLimits();
-        Instantiate(lazer, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
+        Instantiate(lightning, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
         // spawns a new instance of bat at the randomly selected height
     }
     private void SpawnStar()
@@ -146,6 +152,12 @@ public class SpriteSpawn : MonoBehaviour
         SetHeightLimits();
         Instantiate(star, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
         // spawns a new instance of star at the randomly selected height
+    }
+    private void SpawnExtraLife()
+    {
+        SetHeightLimits();
+        Instantiate(extraLife, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
+        // spawns a new instance of extraLife at the randomly selected height
     }
 
 
