@@ -53,7 +53,7 @@ public class SpriteSpawn : MonoBehaviour
             {
                 // Gets a new spawn rate after each object is spawed - varies the distance of new object to the object in front
                 // is only run after each object has been spawned
-                spawnRate = logic.RandomSpawn();
+                spawnRate = logic.RandomSpawnRate();
                 toGetSpawnRate = false;
             }
 

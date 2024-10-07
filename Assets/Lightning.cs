@@ -52,5 +52,6 @@ public class Lightning : MonoBehaviour
             logic.RemoveLife();
 
         }
+
     }
 }

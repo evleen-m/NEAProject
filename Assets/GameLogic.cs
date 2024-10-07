@@ -13,7 +13,9 @@ public class GameLogic : MonoBehaviour
  
     public GameObject gameOverDisplay;
     public GameObject extraLife;
-    public GameObject[] hearts; 
+    public GameObject[] hearts;
+
+    public SpriteRenderer BackgroundImage;
     
     SpriteSpawn timerPausedLogic;
 
@@ -45,7 +47,7 @@ public class GameLogic : MonoBehaviour
     }
 
 
-    public float RandomSpawn()
+    public float RandomSpawnRate()
     {
         // Randomly generates a spawn rate for pipes - pipes spawn at different distances to each other
         SpawnRate = UnityEngine.Random.Range(2,6);
@@ -114,6 +116,16 @@ public class GameLogic : MonoBehaviour
 
         Debug.Log("lost life");
     }
+
+    public void SetBackgroundRed()
+    {
+        BackgroundImage.color = new Color(1f, 0f, 0f, 0.8313726f);
+    } 
+    public void SetBackgroundNormal()
+    {
+        BackgroundImage.color = new Color(1f, 1f, 1f, 0.8313726f);
+    }
+
 
     public void AddLife()
     {

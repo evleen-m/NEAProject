@@ -25,13 +25,15 @@ public class PlayerMovement : MonoBehaviour
         CheckToResetImmunity();
         immunityCounter += Time.deltaTime;
 
-        if (isPlayerAlive)
+        //if player life is 0 or below, isPlayerALive is set to false
+        //this stops the bird from taking inputs from user causes it to fall below screen - leads to game over
+        if (logic.lifeCounter > 0)
         {
-           ValidPlayerMovement();
+            ValidPlayerMovement();
         }
 
 
-       // if bird falls below player view it is destroyed
+        // if bird falls below player view it is destroyed
         if (logic.DeadZoneY > transform.position.y)
         {
             DestroyBird();
@@ -68,17 +70,13 @@ public class PlayerMovement : MonoBehaviour
             logic.RemoveLife();
             //used for debugging ans identifying which object the player came into contact with
             IdentifyObjectCollision();
+            
             hasImmunity = true;
             immunityCounter = 0;
+            logic.SetBackgroundRed();
+            //need to fix game logic as immunity is not gained after hitting the lightning bolt.
 
             Debug.Log("Immunity is active");
-        }
-
-        //if player life is 0 or below, isPlayerALive is set to false
-        //this stops the bird from taking inputs from user causes it to fall below screen - leads to game over
-        if (logic.lifeCounter <= 0)
-        {
-            isPlayerAlive = false;
         }
     }
 
@@ -87,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
         if (immunityCounter >= 3 && hasImmunity)
         {
             hasImmunity = false;
+            logic.SetBackgroundNormal();
             Debug.Log("Reset immunity");
         }
     }
