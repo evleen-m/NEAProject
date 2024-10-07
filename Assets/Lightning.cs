@@ -49,7 +49,7 @@ public class Lightning : MonoBehaviour
     {
         if (collision.gameObject.layer == 3)
         {
-            logic.RemoveLife();
+            logic.DetectedCollision();
 
         }
 

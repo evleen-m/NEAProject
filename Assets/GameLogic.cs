@@ -18,6 +18,7 @@ public class GameLogic : MonoBehaviour
     public SpriteRenderer BackgroundImage;
     
     SpriteSpawn timerPausedLogic;
+    PlayerMovement player;
 
 
     // Game Constants - do not change during runtime can be placed into the classes??
@@ -43,7 +44,7 @@ public class GameLogic : MonoBehaviour
     void Start()
     {
         timerPausedLogic = GameObject.FindGameObjectWithTag("SpriteSpawnLogic").GetComponent<SpriteSpawn>(); // used to allow access to the class PipeSpawn
-            
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
 
@@ -90,8 +91,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-
-    public void RemoveLife()
+    public void RemoveSingleLife()
     {
         // removes the next heart each time the procedure is called
 
@@ -116,16 +116,6 @@ public class GameLogic : MonoBehaviour
 
         Debug.Log("lost life");
     }
-
-    public void SetBackgroundRed()
-    {
-        BackgroundImage.color = new Color(1f, 0f, 0f, 0.8313726f);
-    } 
-    public void SetBackgroundNormal()
-    {
-        BackgroundImage.color = new Color(1f, 1f, 1f, 0.8313726f);
-    }
-
 
     public void AddLife()
     {
@@ -157,6 +147,88 @@ public class GameLogic : MonoBehaviour
         for (int i = 0; i <= 2; i++) // loops through array to destroy all active hearts
         {
             hearts[i].SetActive(false);
+        }
+    }
+
+    public void DestroyBird()
+    {
+        //destroys the bird
+        Debug.Log("bird deleted");
+        Destroy(gameObject);
+
+        // once bird is destroyed it calls gameOver() - displays the end screen
+        Debug.Log("game over run");
+        GameOver();
+    }
+
+    public void SetBackgroundRed()
+    {
+        BackgroundImage.color = new Color(1f, 0f, 0f, 0.8313726f);
+    }
+    public void SetBackgroundNormal()
+    {
+        BackgroundImage.color = new Color(1f, 1f, 1f, 0.8313726f);
+    }
+
+    public void DetectedCollision()
+    {
+        //checks if the player bird has immunity - if it does no further damage is taken.
+        if (player.hasImmunity)
+        {
+            return;
+        }
+
+        else
+        {
+            //player does no have immunity so collision causes bird to lose a life when foriegn object is hit
+            RemoveSingleLife();
+
+            IdentifyObjectCollision();
+
+            //sets the player immunity
+            player.hasImmunity = true;
+            player.immunityCounter = 0;
+
+            //used to indicate damage and immunity to the player
+            SetBackgroundRed();
+
+            //used for developer debugging
+            Debug.Log("Immunity is active");
+        }
+    }
+
+    public void CheckToResetImmunity()
+    {
+        if (player.immunityCounter >= 3 && player.hasImmunity)
+        {
+            player.hasImmunity = false;
+            SetBackgroundNormal();
+            Debug.Log("Reset immunity");
+        }
+    }
+
+    //used for debugging ans identifying which object the player came into contact with
+    public void IdentifyObjectCollision()
+    {
+        string tag = gameObject.tag;
+
+        switch (tag)
+        {
+            case "Pipe":
+                Debug.Log("Pipe");
+                break;
+            case "Star":
+                Debug.Log("Star");
+                break;
+            case "Bat":
+                Debug.Log("Bat");
+                break;
+            case "Lightning":
+                Debug.Log("Lightning");
+                break;
+            case "ExtraLife":
+                Debug.Log("ExtraLife");
+                break;
         }
     }
 }

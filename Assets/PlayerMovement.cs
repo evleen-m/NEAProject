@@ -10,9 +10,9 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D playerRigidbody;
     //public GameObject PlayerSprite1;
     public GameLogic logic;
-    bool isPlayerAlive = true;
-    float immunityCounter = 0f;
-    bool hasImmunity = false;
+    public bool isPlayerAlive = true;
+    public float immunityCounter = 0f;
+    public bool hasImmunity = false;
 
 
     void Start()
@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        CheckToResetImmunity();
+        logic.CheckToResetImmunity();
         immunityCounter += Time.deltaTime;
 
         //if player life is 0 or below, isPlayerALive is set to false
@@ -32,11 +32,10 @@ public class PlayerMovement : MonoBehaviour
             ValidPlayerMovement();
         }
 
-
         // if bird falls below player view it is destroyed
         if (logic.DeadZoneY > transform.position.y)
         {
-            DestroyBird();
+            logic.DestroyBird();
         }
 
     }
@@ -59,62 +58,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // if (immunity) { return; }
-        if (hasImmunity)
-        {
-            return;
-        }
-        else
-        {
-            //causes bird to lose a life when it hits foreign object
-            logic.RemoveLife();
-            //used for debugging ans identifying which object the player came into contact with
-            IdentifyObjectCollision();
-            
-            hasImmunity = true;
-            immunityCounter = 0;
-            logic.SetBackgroundRed();
-            //need to fix game logic as immunity is not gained after hitting the lightning bolt.
-
-            Debug.Log("Immunity is active");
-        }
+        logic.DetectedCollision();
     }
 
-    public void CheckToResetImmunity()
-    {
-        if (immunityCounter >= 3 && hasImmunity)
-        {
-            hasImmunity = false;
-            logic.SetBackgroundNormal();
-            Debug.Log("Reset immunity");
-        }
-    }
-
-    public void DestroyBird()
-    {
-        Debug.Log("bird deleted");
-        Destroy(gameObject);
-
-        // once bird is destroyed it calls gameOver() - displays the end screen
-        Debug.Log("game over run");
-        logic.GameOver();
-    }
-
-    public void IdentifyObjectCollision()
-    {
-        if (gameObject.CompareTag("Pipe"))
-        {
-            Debug.Log("lost life - hit pipe. lives remaining: " + logic.lifeCounter);
-        }
-        else if (gameObject.CompareTag("Bat"))
-        {
-            Debug.Log("lost life - hit bat. lives remaining: " + logic.lifeCounter);
-        }
-        else if (gameObject.CompareTag("Lightning"))
-        {
-            Debug.Log("lost life - hit lightning. lives remaining: " + logic.lifeCounter);
-        }
-    }
+    
 }
 
 
