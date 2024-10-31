@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6275674981080457311}
-  - component: {fileID: 9097144040084017502}
+  - component: {fileID: 911958062906917412}
   m_Layer: 0
   m_Name: Lightning
   m_TagString: Lazer
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 7269529520506223519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9097144040084017502
+--- !u!114 &911958062906917412
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,10 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8099113084734314573}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 196f60ca445950c44b7859f97512748e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d574730c8a66af4ab1415d595b3e405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logic: {fileID: 0}
+  deadZoneX: -14
+  moveSpeed: 2.5
 --- !u!1 &8178700740132664261
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,8 +57,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7269529520506223519}
   - component: {fileID: 2607419401658560442}
-  - component: {fileID: 5184659709902553366}
   - component: {fileID: 4116609994540280720}
+  - component: {fileID: 8303531504773226194}
   m_Layer: 0
   m_Name: Lightning
   m_TagString: Untagged
@@ -73,13 +74,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8178700740132664261}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0062590474, w: 0.99998045}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.04071544, y: 0.8054263, z: 1}
+  m_LocalScale: {x: 0.07462566, y: 0.50007486, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6275674981080457311}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.717}
 --- !u!212 &2607419401658560442
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -132,22 +133,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5184659709902553366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8178700740132664261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9917fd5c994cbb14babebd7ff828e6e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logic: {fileID: 0}
-  timer: 0
-  inactiveTime: 5
-  spriteRenderer: {fileID: 2607419401658560442}
 --- !u!60 &4116609994540280720
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -746,3 +731,20 @@ PolygonCollider2D:
       - {x: -7.6171875, y: -13.3984375}
       - {x: -7.3828125, y: -13.183594}
   m_UseDelaunayMesh: 0
+--- !u!114 &8303531504773226194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8178700740132664261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9917fd5c994cbb14babebd7ff828e6e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deadZoneX: -14
+  moveSpeed: 2.5
+  timer: 0
+  inactiveTime: 5
+  spriteRenderer: {fileID: 2607419401658560442}

@@ -12,15 +12,14 @@ public class SpriteSpawn : MonoBehaviour
     public GameObject bat;
     public GameObject lightning;
     public GameObject extraLife;
-    public GameLogic logic;
 
 
     private float timer = 0.5f;
     public bool timerPaused = false;
     private float spawnRate = 3;
 
-    [SerializeField]
-    private bool toGetSpawnRate = true;
+    //[SerializeField]
+    //private bool toGetSpawnRate = true;
 
     [SerializeField]
     private float lowestPoint;
@@ -28,17 +27,16 @@ public class SpriteSpawn : MonoBehaviour
     [SerializeField]
     private float highestPoint;
 
+    private GameObject spriteToSpawn;
 
 
-    public List<int> listSpritesToSpawn = new List<int>();
+    private List<int> listSpritesToSpawn = new List<int>();
 
-
+    GameLogic logic;
     void Start()
     {
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>(); // used to allow access to the class GameLogic
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
     }
-
-
 
     void Update()
     {
@@ -49,14 +47,6 @@ public class SpriteSpawn : MonoBehaviour
                 GenerateListToSpawn();
             }
 
-            if (toGetSpawnRate)
-            {
-                // Gets a new spawn rate after each object is spawed - varies the distance of new object to the object in front
-                // is only run after each object has been spawned
-                spawnRate = logic.RandomSpawnRate();
-                toGetSpawnRate = false;
-            }
-
             if (timer < spawnRate)
             {
                 // increases timer by the time taken to get from last frame to current frame (in seconds)
@@ -64,34 +54,37 @@ public class SpriteSpawn : MonoBehaviour
             }
             else // runs when timer is greater than spawnRate
             {
-                // first save into variable
+                // first save into variable so can be used for switch case
                 int gamePiece = listSpritesToSpawn[0];
 
                 // spawn corresopnding game object
                 switch(gamePiece){
                     case 0:
-                        SpawnPipe();
+                        spriteToSpawn = pipe;
                         break;
                     case 1:
-                        SpawnStar();
+                        spriteToSpawn = star;
                         break;
                     case 2:
-                        SpawnBat();
+                        spriteToSpawn = bat;
                         break;
                     case 3:
-                        SpawnLightning();
+                        spriteToSpawn = lightning;
                         break;
                     case 4:
-                        SpawnExtraLife();
+                        spriteToSpawn = extraLife;
                         break;
                 }
+                SpawnSprite(spriteToSpawn);
 
                 // then remove it from the list
                 listSpritesToSpawn.RemoveAt(0);
 
-                // resets the timer and gotSpawnRate
+                // resets the timer
                 timer = 0;
-                toGetSpawnRate = true;
+                // Gets a new spawn rate after each object is spawed - varies the distance of new object to the object in front
+                // is only run after each object has been spawned
+                spawnRate = logic.RandomSpawnRate();
             }
 
         }
@@ -100,7 +93,7 @@ public class SpriteSpawn : MonoBehaviour
     private void GenerateListToSpawn()
     {
         //adds four seperate 0s to the list (represents pipes)
-        for (int i = 1; i <=4; i++)
+        for (int i = 1; i <= 4; i++)
         {
             listSpritesToSpawn.Add(0);
         }
@@ -112,8 +105,10 @@ public class SpriteSpawn : MonoBehaviour
         }
         //adds a 1 to the end of list (represents star)
         listSpritesToSpawn.Add(1);
+
         //adds a 3 to the end of list (represents lightning)
         listSpritesToSpawn.Add(3);
+        //4 = extra life
         listSpritesToSpawn.Add(4);
 
         listSpritesToSpawn = listSpritesToSpawn.OrderBy(x => Guid.NewGuid()).ToList(); // this randomises the sprites in the list - ensures they spawn in random order 
@@ -128,37 +123,11 @@ public class SpriteSpawn : MonoBehaviour
 
     }
 
-    private void SpawnPipe()
+    private void SpawnSprite(GameObject sprite)
     {
         SetHeightLimits();
-        Instantiate(pipe, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint),0), transform.rotation);
+        Instantiate(sprite, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint),0), transform.rotation);
         // spawns a new instance of pipe at the randomly selected height
     }
-    private void SpawnBat()
-    {
-        SetHeightLimits();
-        Instantiate(bat, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
-        // spawns a new instance of bat at the randomly selected height
-    }
-
-    private void SpawnLightning()
-    {
-        SetHeightLimits();
-        Instantiate(lightning, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
-        // spawns a new instance of bat at the randomly selected height
-    }
-    private void SpawnStar()
-    {
-        SetHeightLimits();
-        Instantiate(star, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
-        // spawns a new instance of star at the randomly selected height
-    }
-    private void SpawnExtraLife()
-    {
-        SetHeightLimits();
-        Instantiate(extraLife, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
-        // spawns a new instance of extraLife at the randomly selected height
-    }
-
 
 }

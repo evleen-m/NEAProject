@@ -4,10 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class GameLogic : MonoBehaviour
 {
-  
+    SpriteSpawn timerPausedLogic;
+    PlayerMovement player;
+    void Start()
+    {
+        timerPausedLogic = GameObject.FindGameObjectWithTag("SpriteSpawnLogic").GetComponent<SpriteSpawn>(); // used to allow access to the class PipeSpawn
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+    }
+
     public Text scoreText;
     public Text lifeText;
  
@@ -16,10 +24,6 @@ public class GameLogic : MonoBehaviour
     public GameObject[] hearts;
 
     public SpriteRenderer BackgroundImage;
-    
-    SpriteSpawn timerPausedLogic;
-    PlayerMovement player;
-
 
     // Game Constants - do not change during runtime can be placed into the classes??
     public float DeadZoneY = 4.9f;
@@ -41,11 +45,6 @@ public class GameLogic : MonoBehaviour
     private int numberOfPlayers = 1;
 
 
-    void Start()
-    {
-        timerPausedLogic = GameObject.FindGameObjectWithTag("SpriteSpawnLogic").GetComponent<SpriteSpawn>(); // used to allow access to the class PipeSpawn
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
-    }
 
 
     public float RandomSpawnRate()
@@ -62,17 +61,10 @@ public class GameLogic : MonoBehaviour
         // Displays the updated score
         playerScore = playerScore + incrementValue;
         scoreText.text = playerScore.ToString();
+        Stats.GameProgress++;
 
     }
 
-
-    public void RestartGame()
-    {
-        // Loads the pre game scene when button is clicked
-        Debug.Log("Restarted game");
-        Debug.Log("Pre Game Scene is loaded");
-        SceneManager.LoadScene("PreGameScene");
-    }
 
 
     public void GameOver()
@@ -88,11 +80,21 @@ public class GameLogic : MonoBehaviour
             gameOverDisplay.SetActive(true); // displays gameover screen 
             
             DestroyAllLives(); // destroys all hearts on screen 
+            
+            // log to stats
+            //var stats = new Stats();
+            string filePath = @"c:\\temp\\cs\\output.txt";
+            string textToWrite = "Hello, this is the game file!";
+            Stats.CreateFile(filePath, textToWrite);
+            Stats.Save(filePath);
         }
+
+    
     }
 
     public void RemoveSingleLife()
     {
+        
         // removes the next heart each time the procedure is called
 
         lifeCounter -= 1; // removes one life from life counter
@@ -121,10 +123,11 @@ public class GameLogic : MonoBehaviour
     {
         if (lifeCounter == 3)
         {
-
+            
         }
         else
         {
+            Stats.GameLives++;
             lifeCounter = 3;
             lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
             
@@ -148,17 +151,6 @@ public class GameLogic : MonoBehaviour
         {
             hearts[i].SetActive(false);
         }
-    }
-
-    public void DestroyBird()
-    {
-        //destroys the bird
-        Debug.Log("bird deleted");
-        Destroy(gameObject);
-
-        // once bird is destroyed it calls gameOver() - displays the end screen
-        Debug.Log("game over run");
-        GameOver();
     }
 
     public void SetBackgroundRed()

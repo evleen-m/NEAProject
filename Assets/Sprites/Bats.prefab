@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4023539832117872318}
-  - component: {fileID: 4145771624593785899}
+  - component: {fileID: 2105181935672223434}
   m_Layer: 0
   m_Name: Bats
   m_TagString: Bat
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 2525298029927876385}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4145771624593785899
+--- !u!114 &2105181935672223434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,10 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 826646872908755370}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 196f60ca445950c44b7859f97512748e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3173a2f19ff778645b518846a66de9f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logic: {fileID: 0}
+  deadZoneX: -14
+  moveSpeed: 2.5
 --- !u!1 &1430700456653068507
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +61,6 @@ GameObject:
   - component: {fileID: 2351246772723343984}
   - component: {fileID: 577596028094998978}
   - component: {fileID: 3888048661706762182}
-  - component: {fileID: 7838052890663457931}
   m_Layer: 0
   m_Name: Bat2
   m_TagString: Untagged
@@ -315,18 +315,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.31, y: 3.11}
   m_EdgeRadius: 0
---- !u!114 &7838052890663457931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430700456653068507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3173a2f19ff778645b518846a66de9f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logic: {fileID: 0}
-  wobbleTimer: 0
-  wobbleRate: 2

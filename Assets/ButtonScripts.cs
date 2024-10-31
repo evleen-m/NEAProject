@@ -44,4 +44,12 @@ public class ButtonScripts : MonoBehaviour
     {
         Debug.Log("Pause was pressed");
     }
+
+    public void RestartGame()
+    {
+        // Loads the pre game scene when button is clicked
+        Debug.Log("Restarted game");
+        Debug.Log("Pre Game Scene is loaded");
+        SceneManager.LoadScene("PreGameScene");
+    }
 }

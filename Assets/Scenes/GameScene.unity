@@ -570,8 +570,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 670468044}
-        m_TargetAssemblyTypeName: GameLogic, Assembly-CSharp
+      - m_Target: {fileID: 753839140}
+        m_TargetAssemblyTypeName: ButtonScripts, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
@@ -942,7 +942,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 678463668}
-  logic: {fileID: 0}
+  isPlayerAlive: 1
+  immunityCounter: 0
+  hasImmunity: 0
 --- !u!58 &678463670
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1061,6 +1063,50 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 527050953}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &753839139
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 753839141}
+  - component: {fileID: 753839140}
+  m_Layer: 0
+  m_Name: ButtonManager
+  m_TagString: Logic
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &753839140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753839139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07846ef7b9b93ee4d8ba24434bc1a2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &753839141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753839139}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.12565278, y: 9.97, z: -1.941375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &769405175
 GameObject:
@@ -1230,12 +1276,9 @@ MonoBehaviour:
   bat: {fileID: 826646872908755370, guid: 2fd68a7c832082b4e815f33a81c1735d, type: 3}
   lightning: {fileID: 8099113084734314573, guid: a1f2fca98fa999e43aefe4fab512e3d8, type: 3}
   extraLife: {fileID: 396244785279190480, guid: 5b25bdff9a1934241b039e03b15fac5d, type: 3}
-  logic: {fileID: 0}
   timerPaused: 0
-  toGetSpawnRate: 1
   lowestPoint: 0
   highestPoint: 0
-  listSpritesToSpawn: 
 --- !u!4 &791097013
 Transform:
   m_ObjectHideFlags: 0
@@ -2002,3 +2045,4 @@ SceneRoots:
   - {fileID: 791097013}
   - {fileID: 1290893319}
   - {fileID: 670468045}
+  - {fileID: 753839141}

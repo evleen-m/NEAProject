@@ -9,11 +9,10 @@ public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D playerRigidbody;
     //public GameObject PlayerSprite1;
-    public GameLogic logic;
+    GameLogic logic;
     public bool isPlayerAlive = true;
     public float immunityCounter = 0f;
     public bool hasImmunity = false;
-
 
     void Start()
     {
@@ -34,8 +33,10 @@ public class PlayerMovement : MonoBehaviour
 
         // if bird falls below player view it is destroyed
         if (logic.DeadZoneY > transform.position.y)
-        {
-            logic.DestroyBird();
+        {        //destroys the bird
+            Debug.Log("bird deleted");
+            Destroy(gameObject);
+            logic.GameOver();
         }
 
     }
@@ -61,7 +62,6 @@ public class PlayerMovement : MonoBehaviour
         logic.DetectedCollision();
     }
 
-    
 }
 
 

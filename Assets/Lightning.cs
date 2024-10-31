@@ -4,9 +4,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 
-public class Lightning : MonoBehaviour
+public class Lightning : Sprite
 {
-    public GameLogic logic;
+    GameLogic logic;
     [SerializeField] private float timer = 0;
 
     [SerializeField] private float inactiveTime = 5;
@@ -18,6 +18,11 @@ public class Lightning : MonoBehaviour
 
     void Update()
     {
+        SpriteAction(gameObject);
+    }
+    public override void SpriteAction(GameObject gameObject)
+    {
+
         if (timer > inactiveTime)
         {
             SetLightningActive();
@@ -27,17 +32,8 @@ public class Lightning : MonoBehaviour
         { // increases timer by the time taken to get from last frame to current frame (in seconds)
             timer += Time.deltaTime;
         }
-
-        //if (transform.position.z >= 5f)
-        //{
-        //    transform.Rotate(Vector3.forward * 1f); //very slightly roates the bat by 0.5 each frame
-        //}
-        //else
-        //{
-        //    transform.Rotate(Vector3.forward * -1f); //very slightly roates the bat by 0.5 each frame
-        //}
     }
-
+    
     private void SetLightningActive()
     {
         spriteRenderer.color = new Color(1f, 0.5506037f, 0f, 1f);
@@ -45,13 +41,11 @@ public class Lightning : MonoBehaviour
         GetComponent<Collider2D>().enabled = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == 3)
         {
             logic.DetectedCollision();
-
         }
-
     }
 }

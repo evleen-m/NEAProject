@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5230400800359724042}
-  - component: {fileID: 6480324468880872614}
+  - component: {fileID: 5948160405623461230}
   m_Layer: 3
   m_Name: ExtraLife
-  m_TagString: Untagged
+  m_TagString: ExtraLife
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 9152583505602465805}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6480324468880872614
+--- !u!114 &5948160405623461230
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,10 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 396244785279190480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 196f60ca445950c44b7859f97512748e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d574730c8a66af4ab1415d595b3e405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logic: {fileID: 0}
+  deadZoneX: -14
+  moveSpeed: 2.5
 --- !u!1 &756188383601895993
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +58,7 @@ GameObject:
   - component: {fileID: 9152583505602465805}
   - component: {fileID: 5342034339373765490}
   - component: {fileID: 2682101964209100644}
-  - component: {fileID: 1376539918810983627}
+  - component: {fileID: 1288953598313985253}
   m_Layer: 3
   m_Name: heart
   m_TagString: Untagged
@@ -249,7 +250,7 @@ PolygonCollider2D:
       - {x: 0.26999998, y: -2.12}
       - {x: 0.35, y: -2.04}
   m_UseDelaunayMesh: 0
---- !u!114 &1376539918810983627
+--- !u!114 &1288953598313985253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,4 +262,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc4f0c677913b234888b19ef62847f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logic: {fileID: 0}
+  deadZoneX: -14
+  moveSpeed: 2.5

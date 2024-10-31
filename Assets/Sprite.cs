@@ -1,38 +1,53 @@
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Text;
 using UnityEngine;
-using UnityEngine.UIElements;
-public class SpriteMovement : MonoBehaviour
+using UnityEngine.U2D;
+public class Sprite: MonoBehaviour
 {
 
-    public GameLogic logic;
+    public float deadZoneX = -14f;
+    public float moveSpeed = 2.5f;
 
-    void Start()
+    private void Update()
     {
-
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
+        ValidSpriteMovement(gameObject);
     }
+
     //moves sprites across the screen and deletes them when out of view
-    void Update()
-    {   
+    public virtual void ValidSpriteMovement(GameObject gameObject)
+    {
         
-        transform.position = transform.position + (Vector3.left * logic.moveSpeed) * Time.deltaTime;
+        transform.position = transform.position + (Vector3.left * moveSpeed) * Time.deltaTime;
         //Time.deltaTime returns the amount of time in seconds that elapsed since the last frame completed.
         //This value varies depending on the frames per second(FPS)rate at which your game or app is running.
         //Used to ensure the movement speed of objects is the same across different devices
 
-
         // checks if object is out of frame and deletes it if it is
-        if (logic.deadZoneX > transform.position.x)
+        if (deadZoneX > transform.position.x)
         {
-            IdentifyObjectDeleted();
             Destroy(gameObject);
         }
+    }
+
+
+
+
+    public void RotateSprite(float rotationAngle)
+    {
+        
+        transform.Rotate(Vector3.forward * rotationAngle); //very slightly roates the sprite by 0.5 each frame
+    }
+
+    public virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        //allows for different actions to be set when the player collides with a sprite
 
     }
-    
-    // additional checks to identify the type of object that was destroyed
+    public virtual void SpriteAction(GameObject gameObject)
+    {
+        // allows for different actions to be set when the player collides with a sprite
+    }
     private void IdentifyObjectDeleted()
     {
         if (gameObject.CompareTag("Pipe"))
@@ -53,3 +68,4 @@ public class SpriteMovement : MonoBehaviour
         }
     }
 }
+

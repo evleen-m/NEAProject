@@ -3,24 +3,30 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public class Bat : MonoBehaviour
+public class Bat: Sprite
 {
-    public GameLogic logic;
+
     private bool moveTargetIsHigher;
     private float lowestPoint = 5.2f;
     private float highestPoint = 15.5f;
 
+    GameLogic logic;
     void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        RotateSprite(-0.5f);
+        ValidSpriteMovement(gameObject);
 
-        transform.Rotate(Vector3.forward * -0.5f); //very slightly roates the bat by 0.5 each frame
-
+    }
+    public override void ValidSpriteMovement(GameObject gameObject)
+    {
+        base.ValidSpriteMovement(gameObject);
         if (moveTargetIsHigher) // following code is executed if the target position for the bat to be moved to is higher than the current bat position 
         {
             MoveBatUp();
@@ -38,7 +44,6 @@ public class Bat : MonoBehaviour
             }
         }
     }
-
     private void MoveBatUp()
     {
         transform.position = transform.position + (Vector3.up * logic.moveSpeed) * Time.deltaTime;
@@ -48,4 +53,7 @@ public class Bat : MonoBehaviour
     {
         transform.position = transform.position + (Vector3.down * logic.moveSpeed) * Time.deltaTime;
     }
+
+
+
 }

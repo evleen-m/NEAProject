@@ -2,26 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExtraLife : MonoBehaviour
+public class ExtraLife : Sprite
 {
-    public GameLogic logic;
+
+    GameLogic logic;
     void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
-    }
 
-    void Update()
+    }
+    private void Update()
     {
-
-        transform.Rotate(Vector3.forward * 1);
+        
     }
-
     //checks bird passed through star and increases score
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == 3)
         {
             logic.AddLife();
+            Stats.GamePowerups++;
             Destroy(gameObject);
         }
     }
