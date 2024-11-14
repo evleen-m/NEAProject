@@ -31,28 +31,14 @@ public class GameLogic : MonoBehaviour
     public float Ceiling = 15.3f;
 
     public float JumpHeight = 3f;
-    public float moveSpeed = 2.5f;
-
+    public float moveSpeed = 2.5f; // not needed -> check then remove
 
     // Game variables - changes during runtime
     public int lifeCounter = 3;
 
-    public float SpawnRate;
-    public float HeightOffset = 4.5f;
-
     private int playerScore;
     private int numGameOverRun = 0;
     private int numberOfPlayers = 1;
-
-
-
-
-    public float RandomSpawnRate()
-    {
-        // Randomly generates a spawn rate for pipes - pipes spawn at different distances to each other
-        SpawnRate = UnityEngine.Random.Range(2,6);
-        return SpawnRate;
-    }
 
 
     public void IncreaseScore(int incrementValue)
@@ -61,7 +47,7 @@ public class GameLogic : MonoBehaviour
         // Displays the updated score
         playerScore = playerScore + incrementValue;
         scoreText.text = playerScore.ToString();
-        Stats.GameProgress++;
+        //Stats.PipesGoneThrough++;
 
     }
 
@@ -83,10 +69,9 @@ public class GameLogic : MonoBehaviour
             
             // log to stats
             //var stats = new Stats();
-            string filePath = @"c:\\temp\\cs\\output.txt";
-            string textToWrite = "Hello, this is the game file!";
-            Stats.CreateFile(filePath, textToWrite);
-            Stats.Save(filePath);
+
+           // string filePath = Stats.CheckForFile("output.txt");
+            //Stats.AppendTextToFile(filePath);
         }
 
     
@@ -127,7 +112,7 @@ public class GameLogic : MonoBehaviour
         }
         else
         {
-            Stats.GameLives++;
+            //Stats.LivesGained++;
             lifeCounter = 3;
             lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
             
@@ -172,6 +157,7 @@ public class GameLogic : MonoBehaviour
 
         else
         {
+            //Stats.EnemiesHit++;
             //player does no have immunity so collision causes bird to lose a life when foriegn object is hit
             RemoveSingleLife();
 
@@ -189,15 +175,7 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    public void CheckToResetImmunity()
-    {
-        if (player.immunityCounter >= 3 && player.hasImmunity)
-        {
-            player.hasImmunity = false;
-            SetBackgroundNormal();
-            Debug.Log("Reset immunity");
-        }
-    }
+
 
     //used for debugging ans identifying which object the player came into contact with
     public void IdentifyObjectCollision()

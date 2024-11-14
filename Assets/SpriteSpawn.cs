@@ -13,6 +13,8 @@ public class SpriteSpawn : MonoBehaviour
     public GameObject lightning;
     public GameObject extraLife;
 
+    public float SpawnRate;
+
 
     private float timer = 0.5f;
     public bool timerPaused = false;
@@ -26,6 +28,7 @@ public class SpriteSpawn : MonoBehaviour
 
     [SerializeField]
     private float highestPoint;
+    public float HeightOffset = 4.5f;
 
     private GameObject spriteToSpawn;
 
@@ -84,10 +87,16 @@ public class SpriteSpawn : MonoBehaviour
                 timer = 0;
                 // Gets a new spawn rate after each object is spawed - varies the distance of new object to the object in front
                 // is only run after each object has been spawned
-                spawnRate = logic.RandomSpawnRate();
+                spawnRate = RandomSpawnRate();
             }
 
         }
+    }
+    public float RandomSpawnRate()
+    {
+        // Randomly generates a spawn rate for pipes - pipes spawn at different distances to each other
+        SpawnRate = UnityEngine.Random.Range(2, 6);
+        return SpawnRate;
     }
 
     private void GenerateListToSpawn()
@@ -118,8 +127,8 @@ public class SpriteSpawn : MonoBehaviour
     private void SetHeightLimits()
     {
         // sets the lowest and highest points that pipe can spawn at
-        lowestPoint = transform.position.y - logic.HeightOffset;
-        highestPoint = transform.position.y + logic.HeightOffset;
+        lowestPoint = transform.position.y - HeightOffset;
+        highestPoint = transform.position.y + HeightOffset;
 
     }
 

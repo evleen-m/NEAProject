@@ -10,13 +10,6 @@ public class Bat: Sprite
     private float lowestPoint = 5.2f;
     private float highestPoint = 15.5f;
 
-    GameLogic logic;
-    void Start()
-    {
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -46,12 +39,12 @@ public class Bat: Sprite
     }
     private void MoveBatUp()
     {
-        transform.position = transform.position + (Vector3.up * logic.moveSpeed) * Time.deltaTime;
+        transform.position = transform.position + (Vector3.up * moveSpeed) * Time.deltaTime;
     }
 
     private void MoveBatDown()
     {
-        transform.position = transform.position + (Vector3.down * logic.moveSpeed) * Time.deltaTime;
+        transform.position = transform.position + (Vector3.down * moveSpeed) * Time.deltaTime;
     }
 
 

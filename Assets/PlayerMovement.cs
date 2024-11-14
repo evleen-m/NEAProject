@@ -8,11 +8,17 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D playerRigidbody;
-    //public GameObject PlayerSprite1;
     GameLogic logic;
     public bool isPlayerAlive = true;
     public float immunityCounter = 0f;
     public bool hasImmunity = false;
+
+    public float DeadZoneY = 4.9f;
+    public float deadZoneX = -14f;
+    public float Ceiling = 15.3f;
+
+    public float JumpHeight = 3f;
+    public float moveSpeed = 2.5f;
 
     void Start()
     {
@@ -21,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        logic.CheckToResetImmunity();
+        CheckToResetImmunity();
         immunityCounter += Time.deltaTime;
 
         //if player life is 0 or below, isPlayerALive is set to false
@@ -32,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // if bird falls below player view it is destroyed
-        if (logic.DeadZoneY > transform.position.y)
+        if (DeadZoneY > transform.position.y)
         {        //destroys the bird
             Debug.Log("bird deleted");
             Destroy(gameObject);
@@ -45,13 +51,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            playerRigidbody.velocity = Vector2.up * logic.JumpHeight;
+            playerRigidbody.velocity = Vector2.up * JumpHeight;
             //moves player up by jumpheight when W is pressed and bird is in play
         }
 
-        if (transform.position.y > logic.Ceiling)
+        if (transform.position.y > Ceiling)
         {
-            transform.position = new Vector3(transform.position.x, logic.Ceiling, 0);
+            transform.position = new Vector3(transform.position.x, Ceiling, 0);
             Debug.Log("bird position transform.position.y: " + transform.position.y);
             //moves bird down to if it goes above ceiling - stops players from flying off screen and over pipes
         }
@@ -60,6 +66,15 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         logic.DetectedCollision();
+    }
+    public void CheckToResetImmunity()
+    {
+        if (immunityCounter >= 3 && hasImmunity)
+        {
+            hasImmunity = false;
+            logic.SetBackgroundNormal();
+            Debug.Log("Reset immunity");
+        }
     }
 
 }

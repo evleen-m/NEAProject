@@ -34,7 +34,8 @@ public class MenuPreGame : MonoBehaviour
 
    public void GetUsername(string input)
    {
-      username = input;
-      Debug.Log("Username:"+username);
+        username = input;
+        //Stats.Username = username;
+        Debug.Log("Username:"+username);
    }
 }
