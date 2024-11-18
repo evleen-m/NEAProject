@@ -13,9 +13,10 @@ public class PlayerMovement : MonoBehaviour
     public float immunityCounter = 0f;
     public bool hasImmunity = false;
 
-    public float DeadZoneY = 4.9f;
+    public float deadZoneY = 4.9f;
     public float deadZoneX = -14f;
     public float Ceiling = 15.3f;
+    public float playerWall = 0f;
 
     public float JumpHeight = 3f;
     public float moveSpeed = 2.5f;
@@ -38,26 +39,52 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // if bird falls below player view it is destroyed
-        if (DeadZoneY > transform.position.y)
+        if (deadZoneY > transform.position.y)
         {        //destroys the bird
             Debug.Log("bird deleted");
             Destroy(gameObject);
             logic.GameOver();
         }
-
+        if (deadZoneX > transform.position.x)
+        {        //destroys the bird
+            Debug.Log("bird deleted");
+            Destroy(gameObject);
+            logic.GameOver();
+        }
     }
 
     private void ValidPlayerMovement()
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
+            Stats.Record.FlyingTaps++;
             playerRigidbody.velocity = Vector2.up * JumpHeight;
             //moves player up by jumpheight when W is pressed and bird is in play
         }
 
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Stats.Record.FlyingTaps++;
+            playerRigidbody.velocity = Vector2.right * JumpHeight;
+            //moves player up by jumpheight when W is pressed and bird is in play
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Stats.Record.FlyingTaps++;
+            playerRigidbody.velocity = Vector2.left * JumpHeight;
+            //moves player up by jumpheight when W is pressed and bird is in play
+        }
+
+
         if (transform.position.y > Ceiling)
         {
             transform.position = new Vector3(transform.position.x, Ceiling, 0);
+            Debug.Log("bird position transform.position.y: " + transform.position.y);
+            //moves bird down to if it goes above ceiling - stops players from flying off screen and over pipes
+        }
+        if (transform.position.x > playerWall)
+        {
+            transform.position = new Vector3(playerWall, transform.position.y, 0);
             Debug.Log("bird position transform.position.y: " + transform.position.y);
             //moves bird down to if it goes above ceiling - stops players from flying off screen and over pipes
         }

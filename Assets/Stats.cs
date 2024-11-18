@@ -1,21 +1,28 @@
 ﻿using System;
 
 using System.Collections.Generic;
+//using System.Diagnostics;
 using System.IO;
 using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
-using UnityEditor.U2D.Aseprite;
+//using UnityEditor.U2D.Aseprite;
+using UnityEngine.UIElements;
+using Unity.Burst.Intrinsics;
+using System.Linq;
 
 
 public static class Stats
 {
-    private static string _filePath = @"c:\temp\runrun-data.txt";
+    private static string _filePath = @"c:\temp\cs\runrun-data.txt";
 
     public static GameRecord Record = new GameRecord();
     public static RawData Data = new RawData();
 
     public static void Initialise()
     {
+        CheckForDataFile();
         RebuildStatistics();
         Record = new GameRecord();
     }
@@ -37,6 +44,7 @@ public static class Stats
         {
             using (var stream = File.Create(_filePath))
             {
+
                 // creates an empty file - do nothing else
             }
         }
@@ -87,19 +95,22 @@ public static class Stats
         }
         //calculate stats
         var data = new RawData();
-        //{Record.Name},{Record.HeartsGained},{Record.HeartsLost},{Record.GameScore},{Record.PowerupsUsed},{Record.FlyingTaps}
-        data.HeartsGained = columns[1];
-        data.HeartsLost = columns[2];
-        data.GameScore = columns[3];
-        data.PowerupsUsed = columns[4];
-        data.FlyingTaps = columns[5];
-        data.CalculatedHeartsGained = CalculateStatistics(columns[1]);
-        data.CalculatedHeartsLost = CalculateStatistics(columns[2]);
-        data.CalculatedGameScore = CalculateStatistics(columns[3]);
-        data.CalculatedPowerupsUsed = CalculateStatistics(columns[4]);
-        data.CalculatedFlyingTaps = CalculateStatistics(columns[5]);
-        //store stats
-        Data = data;
+        if (columns.Count > 0)
+        {
+            //{Record.Name},{Record.HeartsGained},{Record.HeartsLost},{Record.GameScore},{Record.PowerupsUsed},{Record.FlyingTaps}
+            data.HeartsGained = columns[1];
+            data.HeartsLost = columns[2];
+            data.GameScore = columns[3];
+            data.PowerupsUsed = columns[4];
+            data.FlyingTaps = columns[5];
+            data.CalculatedHeartsGained = CalculateStatistics(columns[1]);
+            data.CalculatedHeartsLost = CalculateStatistics(columns[2]);
+            data.CalculatedGameScore = CalculateStatistics(columns[3]);
+            data.CalculatedPowerupsUsed = CalculateStatistics(columns[4]);
+            data.CalculatedFlyingTaps = CalculateStatistics(columns[5]);
+            //store stats
+            Data = data;
+        }
     }
 
     private static StatisticsResult CalculateStatistics(List<int> numbers)
@@ -196,6 +207,7 @@ public static class Stats
         sb.AppendLine(ConvertToWords("Flying Taps", r.FlyingTaps, ft, Data.CalculatedFlyingTaps));
         return sb.ToString();
     }
+
     private static string ConvertToWords(string metric, int score, double percentile, StatisticsResult statistics)
     {
         if (percentile == 100)
@@ -204,11 +216,11 @@ public static class Stats
         }
         else if (percentile > 50)
         {
-            return $"{metric} [{score}]. You done better than {percentile:N2}% other players. Max: {statistics.Max} Low: {statistics.Min}";
+            return $"{metric} [{score}]. You done better than {percentile:N2}% other players. Highest: {statistics.Max} Lowest: {statistics.Min}";
         }
         else
         {
-            return $"{metric} [{score}]. You done worse than {100 - percentile:N2}% other players. Max: {statistics.Max} Low: {statistics.Min}";
+            return $"{metric} [{score}]. You done worse than {100 - percentile:N2}% other players. Highest: {statistics.Max} Lowest: {statistics.Min}";
         }
     }
 
@@ -221,7 +233,7 @@ public static class Stats
         }
 
         // Sort the list to ensure correct percentile calculation
-        numbers.Sort();
+        numbers = BubbleSort(numbers);
 
         // Count how many numbers are less than or equal to the target
         int countLessThanOrEqualToTarget = 0;
@@ -241,6 +253,96 @@ public static class Stats
         double percentile = ((double)countLessThanOrEqualToTarget / numbers.Count) * 100;
 
         return percentile;
+    }
+
+    public static List<int> BubbleSort(List<int> numbers)
+    {
+
+        PrintList(numbers);
+
+        for (int i = 1; i < numbers.Count; i++)
+        {
+            int key = numbers[i];
+            int j = i - 1;
+
+            // Move elements of list[0..i-1], that are greater than key,
+            // to one position ahead of their current position
+            while (j >= 0 && numbers[j] > key)
+            {
+                numbers[j + 1] = numbers[j];
+                j--;
+            }
+            numbers[j + 1] = key;
+        }
+
+        PrintList(numbers);
+        return numbers;
+    }
+
+    private static void PrintList(List<int> list)
+    {
+        foreach (int number in list)
+        {
+            Debug.Log(number + " ");
+        }
+    }
+    public static string Leaderboard()
+    {
+        List<List<int>> columns = new List<List<int>>();
+        List<GameRecord> output = new List<GameRecord>();
+
+        // open file
+        using (StreamReader reader = new StreamReader(_filePath))
+        {
+            string line;
+            bool isFirstLine = true;
+
+
+            // Read the file line by line
+            while ((line = reader.ReadLine()) != null)
+            {
+                // Split the line into columns based on the comma
+                string[] values = line.Split(',');
+                var gr = new GameRecord();
+
+                // Initialize columns if it's the first line (header row)
+                if (isFirstLine)
+                {
+                    foreach (var value in values)
+                    {
+                        columns.Add(new List<int>());
+                    }
+                    isFirstLine = false;
+                }
+
+                // Process each value in the row and add to corresponding column list
+                if (int.TryParse(values[3], out int number))
+                {
+                    gr.Name = values[0];
+                    gr.GameScore = number;
+                    output.Add(gr);
+                }
+            }
+            output = output.OrderByDescending(x => x.GameScore).Take(5).ToList();
+        }
+
+        var sb = new StringBuilder();
+        foreach (var gr in output)
+        {
+            sb.AppendLine(gr.GameScore + " " + gr.Name);
+        }
+        return sb.ToString();
+    }
+    public static void ResetStats()
+    {
+        if (File.Exists(_filePath))
+        {
+            // Delete the file
+            File.Delete(_filePath);
+            Console.WriteLine("File deleted successfully.");
+            CheckForDataFile();
+        }
+
     }
 }
 

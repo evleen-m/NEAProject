@@ -14,4 +14,5 @@ public class RawData
     public StatisticsResult CalculatedPowerupsUsed { get; set; }
     public StatisticsResult CalculatedHeartsLost { get; set; }
     public StatisticsResult CalculatedFlyingTaps { get; set; }
+
 }

@@ -8,38 +8,33 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class GameLogic : MonoBehaviour
 {
-    SpriteSpawn timerPausedLogic;
+    SpriteSpawn spriteSpawn;
     PlayerMovement player;
-    void Start()
-    {
-        timerPausedLogic = GameObject.FindGameObjectWithTag("SpriteSpawnLogic").GetComponent<SpriteSpawn>(); // used to allow access to the class PipeSpawn
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
-    }
 
     public Text scoreText;
     public Text lifeText;
- 
+    public Text summaryText;
+
     public GameObject gameOverDisplay;
     public GameObject extraLife;
     public GameObject[] hearts;
 
     public SpriteRenderer BackgroundImage;
 
-    // Game Constants - do not change during runtime can be placed into the classes??
-    public float DeadZoneY = 4.9f;
-    public float deadZoneX = -14f;
-    public float Ceiling = 15.3f;
-
-    public float JumpHeight = 3f;
-    public float moveSpeed = 2.5f; // not needed -> check then remove
-
     // Game variables - changes during runtime
     public int lifeCounter = 3;
-
     private int playerScore;
+    
     private int numGameOverRun = 0;
     private int numberOfPlayers = 1;
 
+
+    void Start()
+    {
+        spriteSpawn = GameObject.FindGameObjectWithTag("SpriteSpawnLogic").GetComponent<SpriteSpawn>(); // used to allow access to the class PipeSpawn
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        //Stats.Initialise();
+    }
 
     public void IncreaseScore(int incrementValue)
     {
@@ -47,11 +42,10 @@ public class GameLogic : MonoBehaviour
         // Displays the updated score
         playerScore = playerScore + incrementValue;
         scoreText.text = playerScore.ToString();
-        //Stats.PipesGoneThrough++;
+        Stats.Record.GameScore = Stats.Record.GameScore + incrementValue;
+
 
     }
-
-
 
     public void GameOver()
     {
@@ -60,15 +54,23 @@ public class GameLogic : MonoBehaviour
 
         // if the number of times game over is run is equal to the number of players selected, the game is ended.
         // ensures all players have died and there is no remaining player.
-        if (numGameOverRun == numberOfPlayers)
+        if (numGameOverRun == numberOfPlayers)//added so that can make game multiplayr in the future
         {
-            timerPausedLogic.timerPaused = true; // stops game timer to stop pipes spawning
+            spriteSpawn.timerPaused = true; // stops game timer to stop pipes spawning
+
+            Stats.SaveToFile();
+            var stats = Stats.Compare();
+            Debug.Log(stats.ToString());
+
+            summaryText.text = stats;
+
             gameOverDisplay.SetActive(true); // displays gameover screen 
             
             DestroyAllLives(); // destroys all hearts on screen 
+
+
+            //log to stats
             
-            // log to stats
-            //var stats = new Stats();
 
            // string filePath = Stats.CheckForFile("output.txt");
             //Stats.AppendTextToFile(filePath);
@@ -82,45 +84,27 @@ public class GameLogic : MonoBehaviour
         
         // removes the next heart each time the procedure is called
 
-        lifeCounter -= 1; // removes one life from life counter
+        lifeCounter--; // removes one life from life counter
         lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
-      
-        if (lifeCounter == 2)
-        {
-            hearts[0].SetActive(false);
-
-        }
-        else if (lifeCounter == 1) 
-        {
-            hearts[1].SetActive(false);
-
-        }
-        else if (lifeCounter == 0) 
-        {
-            hearts[2].SetActive(false);
-
-        }
+        hearts[lifeCounter].SetActive(false);
 
         Debug.Log("lost life");
     }
 
     public void AddLife()
     {
-        if (lifeCounter == 3)
+        if (lifeCounter == 9)
         {
             
         }
         else
         {
-            //Stats.LivesGained++;
-            lifeCounter = 3;
-            lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
+           // displays the players remaining lives next to the hearts
             
-            for (int i = 0; i <= 2; i++) // loops through array to add all  hearts
-            {
-                hearts[i].SetActive(true);
-            }
-
+            hearts[lifeCounter].SetActive(true);
+            Stats.Record.HeartsGained++;
+            lifeCounter++;
+            lifeText.text = lifeCounter.ToString();
         }
     }
 
@@ -132,7 +116,7 @@ public class GameLogic : MonoBehaviour
         lifeCounter = 0; // sets lives to 0
         lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
         
-        for (int i = 0; i <= 2; i++) // loops through array to destroy all active hearts
+        for (int i = 0; i <= 9; i++) // loops through array to destroy all active hearts
         {
             hearts[i].SetActive(false);
         }
@@ -157,7 +141,7 @@ public class GameLogic : MonoBehaviour
 
         else
         {
-            //Stats.EnemiesHit++;
+            Stats.Record.HeartsLost++;
             //player does no have immunity so collision causes bird to lose a life when foriegn object is hit
             RemoveSingleLife();
 

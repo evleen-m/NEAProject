@@ -7,11 +7,20 @@ public class Sprite: MonoBehaviour
 {
 
     public float deadZoneX = -14f;
-    public float moveSpeed = 2.5f;
+    public float moveSpeed;
+
+    SpriteSpawn spriteSpawn;
+
+    private void Start()
+    {
+        spriteSpawn = GameObject.FindGameObjectWithTag("SpriteSpawnLogic").GetComponent<SpriteSpawn>();
+        moveSpeed = spriteSpawn.GetMoveSpeed();
+    }
 
     private void Update()
     {
         ValidSpriteMovement(gameObject);
+        //moveSpeed = spriteSpawn.getMoveSpeed();
     }
 
     //moves sprites across the screen and deletes them when out of view
@@ -48,6 +57,7 @@ public class Sprite: MonoBehaviour
     {
         // allows for different actions to be set when the player collides with a sprite
     }
+
     private void IdentifyObjectDeleted()
     {
         if (gameObject.CompareTag("Pipe"))

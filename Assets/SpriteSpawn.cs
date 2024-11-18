@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.U2D;
 
 public class SpriteSpawn : MonoBehaviour
 {
@@ -14,11 +15,18 @@ public class SpriteSpawn : MonoBehaviour
     public GameObject extraLife;
 
     public float SpawnRate;
+    float moveSpeed = 2.4f;
 
 
-    private float timer = 0.5f;
+    private float spawnTimer = 0.5f;
+
+
+
     public bool timerPaused = false;
     private float spawnRate = 3;
+    private double countTimerReset = 0;
+
+    private float maxRange = 6f;
 
     //[SerializeField]
     //private bool toGetSpawnRate = true;
@@ -50,10 +58,10 @@ public class SpriteSpawn : MonoBehaviour
                 GenerateListToSpawn();
             }
 
-            if (timer < spawnRate)
+            if (spawnTimer < spawnRate)
             {
                 // increases timer by the time taken to get from last frame to current frame (in seconds)
-                timer += Time.deltaTime;
+                spawnTimer += Time.deltaTime;
             }
             else // runs when timer is greater than spawnRate
             {
@@ -84,18 +92,48 @@ public class SpriteSpawn : MonoBehaviour
                 listSpritesToSpawn.RemoveAt(0);
 
                 // resets the timer
-                timer = 0;
+                spawnTimer = 0;
+                countTimerReset++;
+                DecreaseMaxRange();
                 // Gets a new spawn rate after each object is spawed - varies the distance of new object to the object in front
                 // is only run after each object has been spawned
                 spawnRate = RandomSpawnRate();
             }
 
+            
         }
+    }
+
+    public void DecreaseMaxRange()
+    {
+        if (countTimerReset % 10 == 0)
+        {
+            if (maxRange > 2)
+            {
+                maxRange -= 0.5f;
+                Debug.Log("Decreased max range to"+maxRange.ToString());
+            }
+        }
+    }
+    private bool increased;
+    public float GetMoveSpeed()
+    {
+        if(countTimerReset % 10 == 0 & increased == true)
+        {
+            if (moveSpeed < 6)
+            {
+                moveSpeed += 0.5f;
+                Debug.Log("Increased move speed to: " + moveSpeed.ToString());
+                increased = false;
+            }
+        }
+        increased = true;
+        return moveSpeed;
     }
     public float RandomSpawnRate()
     {
         // Randomly generates a spawn rate for pipes - pipes spawn at different distances to each other
-        SpawnRate = UnityEngine.Random.Range(2, 6);
+        SpawnRate = UnityEngine.Random.Range(1, maxRange);
         return SpawnRate;
     }
 

@@ -22,7 +22,7 @@ public class Star : Sprite
         if (collision.gameObject.layer == 3)
         {
             logic.IncreaseScore(3);
-            //Stats.PowerupsUsed++;
+            Stats.Record.PowerupsUsed++;
             Destroy(gameObject);
         }
     }

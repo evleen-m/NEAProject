@@ -29,13 +29,14 @@ public class MenuPreGame : MonoBehaviour
          SceneManager.LoadScene("GameScene");
          Debug.Log("GameScene is loaded");
       }
-      
+        Debug.Log("nothing");
    }
 
    public void GetUsername(string input)
    {
+        Stats.Initialise();
         username = input;
-        //Stats.Username = username;
+        Stats.Record.Name = username;
         Debug.Log("Username:"+username);
    }
 }

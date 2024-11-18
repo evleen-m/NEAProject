@@ -21,7 +21,7 @@ public class ExtraLife : Sprite
         if (collision.gameObject.layer == 3)
         {
             logic.AddLife();
-            //Stats.PowerupsUsed++;
+            Stats.Record.PowerupsUsed++;
             Destroy(gameObject);
         }
     }
