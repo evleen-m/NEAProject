@@ -4,18 +4,27 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.U2D;
+
 
 public class SpriteSpawn : MonoBehaviour
 {
-    public GameObject pipe;
-    public GameObject star;
-    public GameObject bat;
-    public GameObject lightning;
-    public GameObject extraLife;
+    [SerializeField]
+    private GameObject pipe;
+    [SerializeField]
 
-    public float SpawnRate;
-    float moveSpeed = 2.4f;
+    private GameObject star;
+    [SerializeField]
+
+    private GameObject bat;
+    [SerializeField]
+
+    private GameObject lightning;
+    [SerializeField]
+
+    private GameObject extraLife;
+
+    private float SpawnRate;
+    private float moveSpeed = 2.4f;
 
 
     private float spawnTimer = 0.5f;
@@ -36,16 +45,18 @@ public class SpriteSpawn : MonoBehaviour
 
     [SerializeField]
     private float highestPoint;
-    public float HeightOffset = 4.5f;
+    private float HeightOffset = 4.5f;
 
     private GameObject spriteToSpawn;
 
+    private bool increased;
 
-    private List<int> listSpritesToSpawn = new List<int>();
+    private CyclicQueue spriteQueue = new CyclicQueue(9);
 
     GameLogic logic;
     void Start()
     {
+        GenerateListToSpawn();
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
     }
 
@@ -53,7 +64,7 @@ public class SpriteSpawn : MonoBehaviour
     {
         if (!timerPaused)
         {
-            if (!listSpritesToSpawn.Any()) // checks if list is empty
+            if (spriteQueue.isEmpty()) // checks if list is empty
             {
                 GenerateListToSpawn();
             }
@@ -66,31 +77,40 @@ public class SpriteSpawn : MonoBehaviour
             else // runs when timer is greater than spawnRate
             {
                 // first save into variable so can be used for switch case
-                int gamePiece = listSpritesToSpawn[0];
+                int gamePiece = spriteQueue.getValueInHead();
+
+                //Debug.Log(spriteQueue.getQueue());
+                //Debug.Log(spriteQueue.getHead());
+                //Debug.Log(spriteQueue.getValueInHead());
+
 
                 // spawn corresopnding game object
-                switch(gamePiece){
+                switch (gamePiece){
                     case 0:
                         spriteToSpawn = pipe;
+                        Debug.Log("sprite to spawn set: pipe");
                         break;
                     case 1:
                         spriteToSpawn = star;
+                        Debug.Log("sprite to spawn set: star");
                         break;
                     case 2:
                         spriteToSpawn = bat;
+                        Debug.Log("sprite to spawn set: bat");
                         break;
                     case 3:
                         spriteToSpawn = lightning;
+                        Debug.Log("sprite to spawn set: light");
                         break;
                     case 4:
                         spriteToSpawn = extraLife;
+                        Debug.Log("sprite to spawn set: life");
                         break;
                 }
                 SpawnSprite(spriteToSpawn);
 
                 // then remove it from the list
-                listSpritesToSpawn.RemoveAt(0);
-
+                spriteQueue.dequeue();
                 // resets the timer
                 spawnTimer = 0;
                 countTimerReset++;
@@ -115,7 +135,6 @@ public class SpriteSpawn : MonoBehaviour
             }
         }
     }
-    private bool increased;
     public float GetMoveSpeed()
     {
         if(countTimerReset % 10 == 0 & increased == true)
@@ -142,24 +161,24 @@ public class SpriteSpawn : MonoBehaviour
         //adds four seperate 0s to the list (represents pipes)
         for (int i = 1; i <= 4; i++)
         {
-            listSpritesToSpawn.Add(0);
+            spriteQueue.enqueue(0);
         }
 
         //adds two seperate 2s to the list (represents bats)
         for (int i = 1; i <= 2; i++)
         {
-            listSpritesToSpawn.Add(2);
+            spriteQueue.enqueue(2);
         }
         //adds a 1 to the end of list (represents star)
-        listSpritesToSpawn.Add(1);
+        spriteQueue.enqueue(1);
 
         //adds a 3 to the end of list (represents lightning)
-        listSpritesToSpawn.Add(3);
+        spriteQueue.enqueue(3);
         //4 = extra life
-        listSpritesToSpawn.Add(4);
+        spriteQueue.enqueue(4);
 
-        listSpritesToSpawn = listSpritesToSpawn.OrderBy(x => Guid.NewGuid()).ToList(); // this randomises the sprites in the list - ensures they spawn in random order 
-        Debug.Log(listSpritesToSpawn.Count()); //used to check there are items in list
+        spriteQueue.randomise(); // this randomises the sprites in the list - ensures they spawn in random order 
+        Debug.Log(spriteQueue.getQueue()); //used to check there are items in list
     }
 
     private void SetHeightLimits()
@@ -170,10 +189,10 @@ public class SpriteSpawn : MonoBehaviour
 
     }
 
-    private void SpawnSprite(GameObject sprite)
+    private void SpawnSprite(GameObject sprite1)
     {
         SetHeightLimits();
-        Instantiate(sprite, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint),0), transform.rotation);
+        Instantiate(sprite1, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint),0), transform.rotation);
         // spawns a new instance of pipe at the randomly selected height
     }
 

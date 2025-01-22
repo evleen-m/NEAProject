@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d574730c8a66af4ab1415d595b3e405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadZoneX: -14
   moveSpeed: 2.5
 --- !u!1 &756188383601895993
 GameObject:
@@ -58,7 +57,7 @@ GameObject:
   - component: {fileID: 9152583505602465805}
   - component: {fileID: 5342034339373765490}
   - component: {fileID: 2682101964209100644}
-  - component: {fileID: 1288953598313985253}
+  - component: {fileID: 151346290607716085}
   m_Layer: 3
   m_Name: heart
   m_TagString: Untagged
@@ -250,7 +249,7 @@ PolygonCollider2D:
       - {x: 0.26999998, y: -2.12}
       - {x: 0.35, y: -2.04}
   m_UseDelaunayMesh: 0
---- !u!114 &1288953598313985253
+--- !u!114 &151346290607716085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,5 +261,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc4f0c677913b234888b19ef62847f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadZoneX: -14
-  moveSpeed: 2.5
+  moveSpeed: 0

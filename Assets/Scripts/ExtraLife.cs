@@ -11,10 +11,7 @@ public class ExtraLife : Sprite
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<GameLogic>();
 
     }
-    private void Update()
-    {
-        
-    }
+
     //checks bird passed through star and increases score
     public override void OnTriggerEnter2D(Collider2D collision)
     {

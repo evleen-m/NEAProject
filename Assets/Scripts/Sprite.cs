@@ -6,7 +6,7 @@ using UnityEngine.U2D;
 public class Sprite: MonoBehaviour
 {
 
-    public float deadZoneX = -14f;
+    private float deadZoneX = -12.5f;
     public float moveSpeed;
 
     SpriteSpawn spriteSpawn;

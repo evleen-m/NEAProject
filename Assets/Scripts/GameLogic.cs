@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using Unity.VisualScripting;
 
 public class GameLogic : MonoBehaviour
 {
@@ -40,12 +41,15 @@ public class GameLogic : MonoBehaviour
     {
         // Increases playerScore by one when called
         // Displays the updated score
+        // updates stats table
         playerScore = playerScore + incrementValue;
         scoreText.text = playerScore.ToString();
         Stats.Record.GameScore = Stats.Record.GameScore + incrementValue;
 
 
     }
+
+ 
 
     public void GameOver()
     {
@@ -62,7 +66,7 @@ public class GameLogic : MonoBehaviour
             var stats = Stats.Compare();
             Debug.Log(stats.ToString());
 
-            summaryText.text = stats;
+            summaryText.text = stats.ToString();
 
             gameOverDisplay.SetActive(true); // displays gameover screen 
             
@@ -79,17 +83,7 @@ public class GameLogic : MonoBehaviour
     
     }
 
-    public void RemoveSingleLife()
-    {
-        
-        // removes the next heart each time the procedure is called
 
-        lifeCounter--; // removes one life from life counter
-        lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
-        hearts[lifeCounter].SetActive(false);
-
-        Debug.Log("lost life");
-    }
 
     public void AddLife()
     {
@@ -108,28 +102,9 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    private void DestroyAllLives()
-    {
-        // is used as player may fall below view before losing all lives
-        // all active hearts would not be deleted, this procedure ensures that they will be
 
-        lifeCounter = 0; // sets lives to 0
-        lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
-        
-        for (int i = 0; i <= 9; i++) // loops through array to destroy all active hearts
-        {
-            hearts[i].SetActive(false);
-        }
-    }
 
-    public void SetBackgroundRed()
-    {
-        BackgroundImage.color = new Color(1f, 0f, 0f, 0.8313726f);
-    }
-    public void SetBackgroundNormal()
-    {
-        BackgroundImage.color = new Color(1f, 1f, 1f, 0.8313726f);
-    }
+
 
     public void DetectedCollision()
     {
@@ -158,11 +133,18 @@ public class GameLogic : MonoBehaviour
             Debug.Log("Immunity is active");
         }
     }
+    public void SetBackgroundNormal()
+    {
+        BackgroundImage.color = new Color(1f, 1f, 1f, 0.8313726f);
+    }
 
-
+    private void SetBackgroundRed()
+    {
+        BackgroundImage.color = new Color(1f, 0f, 0f, 0.8313726f);
+    }
 
     //used for debugging ans identifying which object the player came into contact with
-    public void IdentifyObjectCollision()
+    private void IdentifyObjectCollision()
     {
         string tag = gameObject.tag;
 
@@ -184,5 +166,32 @@ public class GameLogic : MonoBehaviour
                 Debug.Log("ExtraLife");
                 break;
         }
+    }
+
+  
+
+    private void DestroyAllLives()
+    {
+        // is used as player may fall below view before losing all lives
+        // all active hearts would not be deleted, this procedure ensures that they will be
+
+        lifeCounter = 0; // sets lives to 0
+        lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
+
+        for (int i = 0; i <= 9; i++) // loops through array to destroy all active hearts
+        {
+            hearts[i].SetActive(false);
+        }
+    }
+    private void RemoveSingleLife()
+    {
+
+        // removes the next heart each time the procedure is called
+
+        lifeCounter--; // removes one life from life counter
+        lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
+        hearts[lifeCounter].SetActive(false);
+
+        Debug.Log("lost life");
     }
 }

@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d574730c8a66af4ab1415d595b3e405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadZoneX: -14
   moveSpeed: 2.5
 --- !u!1 &5448135808885382408
 GameObject:
@@ -59,7 +58,7 @@ GameObject:
   - component: {fileID: 7751216485397495988}
   - component: {fileID: 2976279599568951488}
   - component: {fileID: 4624443476418133545}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: star
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,5 +189,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d799b0b8f9a8cc4b8b5133a0e905e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadZoneX: -14
   moveSpeed: 2.5
