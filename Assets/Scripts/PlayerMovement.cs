@@ -9,9 +9,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D playerRigidbody;
     GameLogic logic;
-    public bool isPlayerAlive = true;
-    public float immunityCounter = 0f;
-    public bool hasImmunity = false;
+
+    //needs getter and setters
+    [SerializeField]
+    private float immunityCounter = 0f;
+    [SerializeField]
+    private bool hasImmunity = false;
+
 
     private float deadZoneY = 4.9f;
     private float deadZoneX = -14f;
@@ -61,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
 
         //if player life is 0 or below, no more inputs are taken in
         //this stops the bird from taking inputs from user causes it to fall below screen - leads to game over
-        if (logic.lifeCounter > 0)
+        if (logic.GetLifeCounter() > 0)
         {
             ValidPlayerInput();
 
@@ -122,19 +126,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("pressed jump");
             //moves player up by jumpheight when W is pressed and bird is in play
         }
-        
-        //if (Input.GetKeyDown(KeyCode.D))
-        //{
-        //    Stats.Record.FlyingTaps++;
-        //    playerRigidbody.velocity = Vector2.right * JumpHeight;
-        //    //moves player up by jumpheight when W is pressed and bird is in play
-        //}
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    Stats.Record.FlyingTaps++;
-        //    playerRigidbody.velocity = Vector2.left * JumpHeight;
-        //    //moves player up by jumpheight when W is pressed and bird is in play
-        //}
+
 
 
 
@@ -147,13 +139,27 @@ public class PlayerMovement : MonoBehaviour
 
     public void CheckToResetImmunity()
     {
-        if (immunityCounter >= 3 && hasImmunity)
+        if (immunityCounter >= 3 && hasImmunity) //c
         {
             hasImmunity = false;
             logic.SetBackgroundNormal();
             Debug.Log("Reset immunity");
         }
     }
+
+    public void SetImmunityCounter(float value)
+    {
+        this.immunityCounter = value;
+    }
+    public void SetHasImmunity(bool value)
+    {
+        this.hasImmunity = value;
+    }
+    public bool GetHasImmunity()
+    {
+        return hasImmunity;
+    }
+
 
     // Initialize a downward curve for falling
     private void InitialiseFallCurve()

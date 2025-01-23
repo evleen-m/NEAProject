@@ -12,18 +12,23 @@ public class GameLogic : MonoBehaviour
     SpriteSpawn spriteSpawn;
     PlayerMovement player;
 
-    public Text scoreText;
-    public Text lifeText;
-    public Text summaryText;
+    [SerializeField]
+    private Text scoreText;
+    [SerializeField]
+    private Text lifeText;
+    [SerializeField]
+    private Text summaryText;
 
-    public GameObject gameOverDisplay;
-    public GameObject extraLife;
-    public GameObject[] hearts;
+    [SerializeField]
+    private GameObject gameOverDisplay;
+    private GameObject extraLife;
+    [SerializeField]
+    private GameObject[] hearts;
 
     public SpriteRenderer BackgroundImage;
 
     // Game variables - changes during runtime
-    public int lifeCounter = 3;
+    private int lifeCounter = 3;
     private int playerScore;
     
     private int numGameOverRun = 0;
@@ -39,7 +44,7 @@ public class GameLogic : MonoBehaviour
 
     public void IncreaseScore(int incrementValue)
     {
-        // Increases playerScore by one when called
+        // Increases playerScore by incrementValue when called
         // Displays the updated score
         // updates stats table
         playerScore = playerScore + incrementValue;
@@ -60,7 +65,7 @@ public class GameLogic : MonoBehaviour
         // ensures all players have died and there is no remaining player.
         if (numGameOverRun == numberOfPlayers)//added so that can make game multiplayr in the future
         {
-            spriteSpawn.timerPaused = true; // stops game timer to stop pipes spawning
+            spriteSpawn.SetTimer(true); // stops game timer to stop pipes spawning
 
             Stats.SaveToFile();
             var stats = Stats.Compare();
@@ -93,12 +98,18 @@ public class GameLogic : MonoBehaviour
         }
         else
         {
-           // displays the players remaining lives next to the hearts
             
             hearts[lifeCounter].SetActive(true);
+            // sets the current heart sprite to active (visible
+
             Stats.Record.HeartsGained++;
+            
             lifeCounter++;
+            // increases the player life by 1
+
             lifeText.text = lifeCounter.ToString();
+            // displays the players remaining lives next to the hearts
+        
         }
     }
 
@@ -109,7 +120,7 @@ public class GameLogic : MonoBehaviour
     public void DetectedCollision()
     {
         //checks if the player bird has immunity - if it does no further damage is taken.
-        if (player.hasImmunity)
+        if (player.GetHasImmunity())
         {
             return;
         }
@@ -117,14 +128,14 @@ public class GameLogic : MonoBehaviour
         else
         {
             Stats.Record.HeartsLost++;
-            //player does no have immunity so collision causes bird to lose a life when foriegn object is hit
+            //player does not have immunity so collision causes bird to lose a life when enemy object is hit
             RemoveSingleLife();
 
             IdentifyObjectCollision();
 
-            //sets the player immunity
-            player.hasImmunity = true;
-            player.immunityCounter = 0;
+            //sets the player immunity to be true (acitvated)
+            player.SetHasImmunity(true);
+            player.SetImmunityCounter(0);
 
             //used to indicate damage and immunity to the player
             SetBackgroundRed();
@@ -136,6 +147,11 @@ public class GameLogic : MonoBehaviour
     public void SetBackgroundNormal()
     {
         BackgroundImage.color = new Color(1f, 1f, 1f, 0.8313726f);
+    }
+
+    public int GetLifeCounter()
+    {
+        return lifeCounter;
     }
 
     private void SetBackgroundRed()
@@ -168,6 +184,8 @@ public class GameLogic : MonoBehaviour
         }
     }
 
+
+
   
 
     private void DestroyAllLives()
@@ -188,10 +206,15 @@ public class GameLogic : MonoBehaviour
 
         // removes the next heart each time the procedure is called
 
-        lifeCounter--; // removes one life from life counter
-        lifeText.text = lifeCounter.ToString(); // displays the players remaining lives next to the hearts
+        lifeCounter--;
+        // removes one life from life counter
+        
+        lifeText.text = lifeCounter.ToString(); 
+        // displays the players remaining lives next to the hearts -> prevent confusion
+        
         hearts[lifeCounter].SetActive(false);
+        //sets the sprite to be inactive - invisible
 
-        Debug.Log("lost life");
+        Debug.Log("lost life"); //debugging
     }
 }

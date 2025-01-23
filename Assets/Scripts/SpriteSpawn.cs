@@ -23,7 +23,7 @@ public class SpriteSpawn : MonoBehaviour
 
     private GameObject extraLife;
 
-    private float SpawnRate;
+
     private float moveSpeed = 2.4f;
 
 
@@ -31,9 +31,8 @@ public class SpriteSpawn : MonoBehaviour
 
 
 
-    public bool timerPaused = false;
     private float spawnRate = 3;
-    private double countTimerReset = 0;
+    private double increaseSpeedTimer = 0;
 
     private float maxRange = 6f;
 
@@ -49,9 +48,13 @@ public class SpriteSpawn : MonoBehaviour
 
     private GameObject spriteToSpawn;
 
-    private bool increased;
+    private bool notIncreased;
 
     private CyclicQueue spriteQueue = new CyclicQueue(9);
+
+    //needs getter/setter methods
+    [SerializeField]
+    private bool timerPaused = false;
 
     GameLogic logic;
     void Start()
@@ -85,7 +88,8 @@ public class SpriteSpawn : MonoBehaviour
 
 
                 // spawn corresopnding game object
-                switch (gamePiece){
+                switch (gamePiece)
+                {
                     case 0:
                         spriteToSpawn = pipe;
                         Debug.Log("sprite to spawn set: pipe");
@@ -113,47 +117,63 @@ public class SpriteSpawn : MonoBehaviour
                 spriteQueue.dequeue();
                 // resets the timer
                 spawnTimer = 0;
-                countTimerReset++;
+                increaseSpeedTimer++;
                 DecreaseMaxRange();
-                // Gets a new spawn rate after each object is spawed - varies the distance of new object to the object in front
+                // Gets a new spawn rate after each object is spawed
+                // -> varies the distance of new object to the object in front
                 // is only run after each object has been spawned
                 spawnRate = RandomSpawnRate();
             }
 
-            
+
         }
     }
 
+    // decreases the max value for the range of spawn rate
     public void DecreaseMaxRange()
-    {
-        if (countTimerReset % 10 == 0)
+    { 
+        if (increaseSpeedTimer % 10 == 0) // run every 10 seconds
         {
-            if (maxRange > 2)
+            if (maxRange > 2) // max range value muste be greater than 2
             {
-                maxRange -= 0.5f;
-                Debug.Log("Decreased max range to"+maxRange.ToString());
+                maxRange -= 0.5f; //descrease
+                Debug.Log("Decreased max range to" + maxRange.ToString());
             }
         }
     }
+
+    // calculates the speed at which sprites must move at based on game progess
     public float GetMoveSpeed()
     {
-        if(countTimerReset % 10 == 0 & increased == true)
+        if (increaseSpeedTimer % 10 == 0 & notIncreased == true) // run every 10 seconds and if this has not been run previously
         {
-            if (moveSpeed < 6)
+            if (moveSpeed < 6) // moveSpeed must be below 6
             {
-                moveSpeed += 0.5f;
+                moveSpeed += 0.5f; // increase
                 Debug.Log("Increased move speed to: " + moveSpeed.ToString());
-                increased = false;
+                notIncreased = false; // sets the flag to false
             }
         }
-        increased = true;
+        notIncreased = true; // flag set to true - indicates that fucntion has not been run
         return moveSpeed;
     }
     public float RandomSpawnRate()
     {
+        float SpawnRate;
+
         // Randomly generates a spawn rate for pipes - pipes spawn at different distances to each other
         SpawnRate = UnityEngine.Random.Range(1, maxRange);
         return SpawnRate;
+    }
+
+    public bool GetTimer()
+    {
+        return timerPaused;
+    }
+
+    public void SetTimer(bool active)
+    {
+        this.timerPaused = active;
     }
 
     private void GenerateListToSpawn()
@@ -192,7 +212,7 @@ public class SpriteSpawn : MonoBehaviour
     private void SpawnSprite(GameObject sprite1)
     {
         SetHeightLimits();
-        Instantiate(sprite1, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint),0), transform.rotation);
+        Instantiate(sprite1, new Vector3(transform.position.x, UnityEngine.Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
         // spawns a new instance of pipe at the randomly selected height
     }
 
